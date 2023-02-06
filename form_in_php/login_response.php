@@ -11,4 +11,7 @@ echo "post: ";
 print_r($_POST);//array super globale del post
 echo "</pre>";
 
+echo "La tua email è <br>";
+echo "<strong>".$_POST['email']."</strong>"; //concatenazioni
+
 ?>
