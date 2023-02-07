@@ -15,16 +15,16 @@
        <section class="row">
         <div class="col-sm-4">
 
-                    </div>
+        </div>
         <div class="col-sm-4">
             <form class="mt-1 mt-md-5" action="login_response.php" method="post">
                 <div class="mb-3">
                      <label for="email" class="form-label">email</label>
-                     <input type="email" class="form-control" name="email"id="email">
+                     <input type="email" class="form-control" name="email" id="email">
                 </div> 
                 <div class="mb-3">
                      <label for="password" class="form-label">password</label>
-                     <input type="password" id="password" name="password" class="form-control">
+                     <input type="password" class="form-control" name="password" id="password">
                 </div>
                 <button class="btn btn-primary btn-sm"  type="submit"> Accedi </button>
              </form>
