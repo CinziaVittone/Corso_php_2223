@@ -1,3 +1,16 @@
+<?php
+//ottengo informazione sul metodo usato per la richiesta che sto eseguendo
+//mi stampa GET se sono appena entrato nella pagina
+//mi stampa POST se ho ogià compilato il form
+//print_r($SERVER);
+print_r($_SERVER["REQUEST_METHOD"]);
+if($_SERVER["REQUEST_METHOD"] === "POST"){
+    echo "\nDati inviati, devono essere controllati.";
+}else{
+    echo "\nL' utente deve ancora compilare.";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,28 +32,37 @@
         </div>
 
         <div class="col-sm-4">
-            <form class="mt-1 mt-md-5" action="register_user.php" method="post">
+            <form class="mt-1 mt-md-5" action="create_user.php" method="post">
                 <!-- dati utente -->
                 <div class="mb-3">
                     <label for="nome" class="form-label">nome</label>
-                    <input type="nome" class="form-control" name="first_name"id="nome">
+                    <input type="nome" class="form-control is-invalid" name="first_name"id="nome">
+                    <div class="invalid-feedback">
+                        Campo obbligatorio
+                    </div>
                 </div>
                 
                 <div class="mb-3">
                     <label for="cognome" class="form-label">cognome</label>
-                    <input type="cognome" class="form-control" name="last_name"id="cognome">
+                    <input type="cognome" class="form-control is-invalid" name="last_name"id="cognome">
+                    <div class="invalid-feedback">
+                        Campo obbligatorio
+                    </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="data_di_nascita" class="form-label">data di nascita</label>
                     <!-- <input type="data_di_nascita" class="form-control" name="birthday"id="data_di_nascita"> -->
-                    <input type="date" id="birthday" name="birthday">
+                    <input type="date" class="form-control is-invalid" id="birthday" name="birthday">
+                    <div class="invalid-feedback">
+                        Campo obbligatorio
+                    </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="luogo_di_nascita" class="form-label">luogo di nascita</label>
                     <!-- <input type="luogo_di_nascita" class="form-control" name="birth_place"id="luogo_di_nascita"> -->
-                    <select class="form-control" id="luogo_di_nascita">
+                    <select class="form-control is-invalid" id="luogo_di_nascita">
                     <option value="none"></option>       
   <option value="AG">Agrigento</option>      
   <option value="AL">Alessandria</option>
@@ -150,14 +172,20 @@
   <option value="VI">Vicenza</option>
   <option value="VT">Viterbo</option>
                     </select>
+                    <div class="invalid-feedback">
+                        Campo obbligatorio
+                    </div>
                 </div>
                
 
                 <div class="mb-3">
                     <label for="sesso" class="form-label">sesso</label>
                     <!-- <input type="sesso" class="form-control" name="gender"id="sesso"> -->
-                    <input type="radio" name="gender" value="m"/>M
-                    <input type="radio" name="gender" value="f"/>F
+                    <input type="radio" class="form-check-input is-invalid" name="gender" value="m"/>M
+                    <input type="radio" class="form-check-input is-invalid" name="gender" value="f"/>F
+                    <div class="invalid-feedback">
+                        Campo obbligatorio
+                    </div>
                     <!-- <select class="form-control" id="sesso">
 	                <option value="none" selected></option>
 	                <option value="M">M</option>
@@ -168,12 +196,18 @@
                 <!-- nome utente(email) e password -->
                 <div class="mb-3">
                     <label for="email" class="form-label">nome utente</label>
-                    <input type="email" class="form-control" name="username"id="email">
+                    <input type="email" class="form-control is-invalid" name="username"id="email">
+                    <div class="invalid-feedback">
+                        Campo obbligatorio
+                    </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="password" class="form-label">password</label>
-                    <input type="password" class="form-control" name="password"id="password">
+                    <input type="password" class="form-control is-invalid" name="password"id="password">
+                    <div class="invalid-feedback">
+                        Campo obbligatorio
+                    </div>
                 </div>
 
                 <button class="btn btn-primary btn-sm"  type="submit"> Registrati </button>
