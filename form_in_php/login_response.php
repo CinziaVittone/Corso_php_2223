@@ -25,7 +25,7 @@
 //2.variabile da ottenere con get è una "stringa"
 //3.terzo argomento opzionale: filtro = controllo che faccio sui dati
 
-$test=filer_input(INPUT_GET,"email",FILTER_VALIDATE_EMAIL);
+$test=filter_input(INPUT_GET,"email",FILTER_VALIDATE_EMAIL);
  
 if($test==false){
     echo "\nLa mail non è valida\n";

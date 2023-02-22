@@ -9,7 +9,7 @@
 <body>
     <?php
 
-    $array2ul=array("Rossso", "Verde", "Viola");
+    $array2ul=array("Rosso", "Verde", "Viola");
 
     function array2ul($array){
         
