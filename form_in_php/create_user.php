@@ -1,4 +1,9 @@
+
 <?php
+error_reporting(E_ALL);
+
+require "./class/validator/Validable.php";
+require "./class/validator/ValidateRequired.php";//che a sua volra richiede l' interfaccia
 //ottengo informazione sul metodo usato per la richiesta che sto eseguendo
 //mi stampa GET se sono appena entrato nella pagina
 //mi stampa POST se ho ogià compilato il form
@@ -6,8 +11,60 @@
 print_r($_SERVER["REQUEST_METHOD"]);
 if($_SERVER["REQUEST_METHOD"] === "POST"){
     echo "\nDati inviati, devono essere controllati.";
-}else{
+
+    //nome
+    //accedo ai valori con POST usando i loro name
+    //$first_name = $_POST["first-name"];
+    //usiamo direttamente la classe che abbiamo a disposizione
+    $validatorName = new ValidateRequired();//istanza che valida il nome
+    $validatedName = $validatorName -> isValid($_POST["first_name"]);//metodo che controlla
+    //altro modo al posto di mettere solo is--valid nella classe
+    $validatedNameClass = $validatorName -> isValid($_POST["first_name"]) ? "" : "is-invalid";
+    //è un OPERATORE TERNARIO assegnato a una variabile per poterla richiamare
+    //se true esegue ?
+    //se false esegue :
+    /*sostituisce
+
+    if($validatorName -> isValid($_POST("fisrt_name"))){
+        $validatedName = "";
+    }else{
+        $validatedNameClass = "is-invalid";
+    }
+
+    */
+
+    //cognome
+    $validatorSurname = new ValidateRequired();
+    $validatedSurname = $validatorSurname -> isValid($_POST["last_name"]);
+    $validatedSurnameClass = $validatorSurname -> isValid($_POST["last_name"]) ? "" : "is-invalid";
+
+    //nome utente
+    $validatorUsername = new ValidateRequired();
+    $validatedUsername = $validatorUsername -> isValid($_POST["username"]);
+    $validatedUsernameClass = $validatorUsername -> isValid($_POST["username"]) ? "" : "is-invalid";
+
+    //genere
+    //diverso perchè non è una stringa
+    $validatorGender = new ValidateRequired();
+    //var_dump((isset($_POST["gender"])));
+    //exit();
+    //isset su gender per sapere se è stato compilato o no
+    $_gender = !isset($_POST["gender"]) ? "" : $_POST["gender"];
+    $validatedGender = $validatorGender-> isValid($_gender);
+
+
+    //password
+    $validatorPassword = new ValidateRequired();
+    $validatedPassword = $validatorPassword -> isValid($_POST["password"]);
+    $validatedPasswordClass = $validatorPassword -> isValid($_POST["password"]) ? "" : "is-invalid";
+
     echo "\nL' utente deve ancora compilare.";
+    var_dump($_POST);//non so se serve
+}
+
+// questo script viene eseguito quando visualizzo per la prima volta il form di registrazione
+if($_SERVER["REQUEST_METHOD"] == "GET"){
+    $validatedNameClass = "";
 }
 ?>
 
@@ -36,18 +93,45 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                 <!-- dati utente -->
                 <div class="mb-3">
                     <label for="nome" class="form-label">nome</label>
-                    <input type="nome" class="form-control is-invalid" name="first_name"id="nome">
-                    <div class="invalid-feedback">
+                    <input type="nome" class="form-control <?php echo $validatedNameClass ?>" name="first_name"id="nome">
+                    <!-- apriamo un tag php per usare la validazione -->
+                    <?php
+
+                    /*
+                    //CASO 1
+                    GET isset($validatedName) false
+                    first_name = "Cinzia" => $validatedName = "Cinzia" | iseet($validatedName) true &&  false
+                    POST isset($validatedName) true
+
+                    // CASO 2
+                    GET isset($validatedName) false
+                    first_name = "" => $validatedName = false
+                    POST isset($validatedName) ture && !false | isset($validatedName) true && false
+                    */
+
+                    // se è diverso da validatedName
+                    // inizialmente nessu avviso, ma se non compoli allora lo dice
+                    if (isset($validatedName) && !$validatedName){?>
+                        <div class="invalid-feedback">
                         Campo obbligatorio
-                    </div>
+                        </div>
+                    <?php
+                    }
+                    ?>
+                    
                 </div>
                 
                 <div class="mb-3">
                     <label for="cognome" class="form-label">cognome</label>
-                    <input type="cognome" class="form-control is-invalid" name="last_name"id="cognome">
+                    <input type="cognome" class="form-control <?php echo $validatedSurnameClass ?>"  name="last_name"id="cognome">
+                    <?php 
+                    if (isset($validatedSurname) && !$validatedSurname){?>
                     <div class="invalid-feedback">
                         Campo obbligatorio
                     </div>
+                    <?php
+                    }
+                    ?>
                 </div>
 
                 <div class="mb-3">
@@ -181,11 +265,14 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                 <div class="mb-3">
                     <label for="sesso" class="form-label">sesso</label>
                     <!-- <input type="sesso" class="form-control" name="gender"id="sesso"> -->
-                    <input type="radio" class="form-check-input is-invalid" name="gender" value="m"/>M
-                    <input type="radio" class="form-check-input is-invalid" name="gender" value="f"/>F
+                    <input type="radio" class="form-check-input <?php echo $validatedGender ? "is-invalid" : "" ?>" name="gender" value="m"/>M
+                    <input type="radio" class="form-check-input <?php echo $validatedGender ? "is-invalid" : "" ?>" name="gender" value="f"/>F
+                    <?php 
+                    if (!$validatedGender) : ?>
                     <div class="invalid-feedback">
                         Campo obbligatorio
                     </div>
+                    <?php endif ?>
                     <!-- <select class="form-control" id="sesso">
 	                <option value="none" selected></option>
 	                <option value="M">M</option>
@@ -196,18 +283,28 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                 <!-- nome utente(email) e password -->
                 <div class="mb-3">
                     <label for="email" class="form-label">nome utente</label>
-                    <input type="email" class="form-control is-invalid" name="username"id="email">
+                    <input type="email" class="form-control <?php echo $validatedUsernameClass ?>" name="username"id="email">
+                    <?php 
+                    if (isset($validatedUsername) && !$validatedUsername){?>
                     <div class="invalid-feedback">
                         Campo obbligatorio
                     </div>
+                    <?php
+                    }
+                    ?>
                 </div>
 
                 <div class="mb-3">
                     <label for="password" class="form-label">password</label>
-                    <input type="password" class="form-control is-invalid" name="password"id="password">
+                    <input type="password" class="form-control <?php echo $validatedPasswordClass ?>" name="password"id="password">
+                    <?php 
+                    if (isset($validatedPassword) && !$validatedPassword){?>
                     <div class="invalid-feedback">
                         Campo obbligatorio
                     </div>
+                    <?php
+                    }
+                    ?>
                 </div>
 
                 <button class="btn btn-primary btn-sm"  type="submit"> Registrati </button>
