@@ -35,6 +35,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $validatedGender= $validatorGender -> isValid($_POST["gender"]);
     $validatedPassword = $validatorPassword -> isValid($_POST["password"]);
 
+    //usato peril caso del radio
+    //$value = isset($_POST["gender"]) ? $_POST["gender"] : "";
+    //$gender -> isValid($value);
 
 
    
