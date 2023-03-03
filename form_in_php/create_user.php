@@ -1,13 +1,4 @@
 
-<?php
-   
-
-    //nome utente
-    $validatorUsername = new ValidateRequired();
-    $validatedUsername = $validatorUsername -> isValid($_POST["username"]);
-    $validatedUsernameClass = $validatorUsername -> isValid($_POST["username"]) ? "" : "is-invalid";
-
-?>
 
 <!DOCTYPE html>
 <html lang="en">

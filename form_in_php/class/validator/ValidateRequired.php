@@ -17,7 +17,7 @@ class ValidateRequired implements Validable{
      /** se il valore è valido e se devo visualizzare il messaggio  */
     private $valid;
 
-    public function __construct($default_value="", $message="È obbligatorio" ){
+    public function __construct($default_value="", $message="❗️È obbligatorio😬" ){
         $this -> value = $default_value;
         $this -> valid = true;
         $this -> message = $message;
