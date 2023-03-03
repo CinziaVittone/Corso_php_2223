@@ -1,71 +1,12 @@
 
 <?php
-error_reporting(E_ALL);
-
-require "./class/validator/Validable.php";
-require "./class/validator/ValidateRequired.php";//che a sua volra richiede l' interfaccia
-//ottengo informazione sul metodo usato per la richiesta che sto eseguendo
-//mi stampa GET se sono appena entrato nella pagina
-//mi stampa POST se ho ogià compilato il form
-//print_r($SERVER);
-print_r($_SERVER["REQUEST_METHOD"]);
-if($_SERVER["REQUEST_METHOD"] === "POST"){
-    echo "\nDati inviati, devono essere controllati.";
-
-    //nome
-    //accedo ai valori con POST usando i loro name
-    //$first_name = $_POST["first-name"];
-    //usiamo direttamente la classe che abbiamo a disposizione
-    $validatorName = new ValidateRequired();//istanza che valida il nome
-    $validatedName = $validatorName -> isValid($_POST["first_name"]);//metodo che controlla
-    //altro modo al posto di mettere solo is--valid nella classe
-    $validatedNameClass = $validatorName -> isValid($_POST["first_name"]) ? "" : "is-invalid";
-    //è un OPERATORE TERNARIO assegnato a una variabile per poterla richiamare
-    //se true esegue ?
-    //se false esegue :
-    /*sostituisce
-
-    if($validatorName -> isValid($_POST("fisrt_name"))){
-        $validatedName = "";
-    }else{
-        $validatedNameClass = "is-invalid";
-    }
-
-    */
-
-    //cognome
-    $validatorSurname = new ValidateRequired();
-    $validatedSurname = $validatorSurname -> isValid($_POST["last_name"]);
-    $validatedSurnameClass = $validatorSurname -> isValid($_POST["last_name"]) ? "" : "is-invalid";
+   
 
     //nome utente
     $validatorUsername = new ValidateRequired();
     $validatedUsername = $validatorUsername -> isValid($_POST["username"]);
     $validatedUsernameClass = $validatorUsername -> isValid($_POST["username"]) ? "" : "is-invalid";
 
-    //genere
-    //diverso perchè non è una stringa
-    $validatorGender = new ValidateRequired();
-    //var_dump((isset($_POST["gender"])));
-    //exit();
-    //isset su gender per sapere se è stato compilato o no
-    $_gender = !isset($_POST["gender"]) ? "" : $_POST["gender"];
-    $validatedGender = $validatorGender-> isValid($_gender);
-
-
-    //password
-    $validatorPassword = new ValidateRequired();
-    $validatedPassword = $validatorPassword -> isValid($_POST["password"]);
-    $validatedPasswordClass = $validatorPassword -> isValid($_POST["password"]) ? "" : "is-invalid";
-
-    echo "\nL' utente deve ancora compilare.";
-    var_dump($_POST);//non so se serve
-}
-
-// questo script viene eseguito quando visualizzo per la prima volta il form di registrazione
-if($_SERVER["REQUEST_METHOD"] == "GET"){
-    $validatedNameClass = "";
-}
 ?>
 
 <!DOCTYPE html>
@@ -93,7 +34,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
                 <!-- dati utente -->
                 <div class="mb-3">
                     <label for="nome" class="form-label">nome</label>
-                    <input type="nome" class="form-control <?php echo $validatedNameClass ?>" name="first_name"id="nome">
+                    <input type="text"  value="<?= $validatorName -> getValue() ?>" class="form-control " name="first_name"id="nome">
                     <!-- apriamo un tag php per usare la validazione -->
                     <?php
 
@@ -111,9 +52,9 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
 
                     // se è diverso da validatedName
                     // inizialmente nessu avviso, ma se non compoli allora lo dice
-                    if (isset($validatedName) && !$validatedName){?>
+                    if ($validatorName -> isValid()){?>
                         <div class="invalid-feedback">
-                        Campo obbligatorio
+                            <?= $validatorName -> getMessage() ?>
                         </div>
                     <?php
                     }
@@ -123,11 +64,11 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
                 
                 <div class="mb-3">
                     <label for="cognome" class="form-label">cognome</label>
-                    <input type="cognome" class="form-control <?php echo $validatedSurnameClass ?>"  name="last_name"id="cognome">
+                    <input type="text" class="form-control <?php echo $validatedSurnameClass ?>"  name="last_name"id="cognome">
                     <?php 
                     if (isset($validatedSurname) && !$validatedSurname){?>
                     <div class="invalid-feedback">
-                        Campo obbligatorio
+                        Cognome obbligatorio
                     </div>
                     <?php
                     }
@@ -137,16 +78,21 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
                 <div class="mb-3">
                     <label for="data_di_nascita" class="form-label">data di nascita</label>
                     <!-- <input type="data_di_nascita" class="form-control" name="birthday"id="data_di_nascita"> -->
-                    <input type="date" class="form-control is-invalid" id="birthday" name="birthday">
+                    <input type="date" class="form-control <?php echo $validatedBirthdayClass ?>" id="birthday" name="birthday">
+                    <?php 
+                    if (isset($validatedBirthday) && !$validatedBirthday){?>
                     <div class="invalid-feedback">
-                        Campo obbligatorio
+                        Data di nascita obbligatoria
                     </div>
+                    <?php
+                    }
+                    ?>
                 </div>
 
                 <div class="mb-3">
-                    <label for="luogo_di_nascita" class="form-label">luogo di nascita</label>
-                    <!-- <input type="luogo_di_nascita" class="form-control" name="birth_place"id="luogo_di_nascita"> -->
-                    <select class="form-control is-invalid" id="luogo_di_nascita">
+                    <label for="birth_place" class="form-label">luogo di nascita</label>
+                    <!-- <input type="birth_place" class="form-control" name="birth_place"id="birth_place"> -->
+                    <select class="form-control <?php echo $validatedBirthPlaceClass ?>" id="birth_place">
                     <option value="none"></option>       
   <option value="AG">Agrigento</option>      
   <option value="AL">Alessandria</option>
@@ -256,23 +202,30 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
   <option value="VI">Vicenza</option>
   <option value="VT">Viterbo</option>
                     </select>
+                    <?php 
+                    if (isset($validatedBirthPlace) && !$validatedBirthPlace){?>
                     <div class="invalid-feedback">
-                        Campo obbligatorio
+                        Luogo di nascita obbligatorio
                     </div>
+                    <?php
+                    }
+                    ?>
                 </div>
                
 
                 <div class="mb-3">
                     <label for="sesso" class="form-label">sesso</label>
                     <!-- <input type="sesso" class="form-control" name="gender"id="sesso"> -->
-                    <input type="radio" class="form-check-input <?php echo $validatedGender ? "is-invalid" : "" ?>" name="gender" value="m"/>M
-                    <input type="radio" class="form-check-input <?php echo $validatedGender ? "is-invalid" : "" ?>" name="gender" value="f"/>F
+                    <input type="radio" class="form-check-input <?php echo $validatedGenderClass ?>" name="gender" value="m"/>M
+                    <input type="radio" class="form-check-input <?php echo $validatedGenderClass ?>" name="gender" value="f"/>F
                     <?php 
-                    if (!$validatedGender) : ?>
+                    if (isset($validatedGender) && !$validatedGender){?>
                     <div class="invalid-feedback">
-                        Campo obbligatorio
+                        Genere obbligatorio
                     </div>
-                    <?php endif ?>
+                    <?php
+                    }
+                    ?>
                     <!-- <select class="form-control" id="sesso">
 	                <option value="none" selected></option>
 	                <option value="M">M</option>
