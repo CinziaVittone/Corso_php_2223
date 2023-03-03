@@ -36,15 +36,6 @@
         <div class="col-sm-4">
                </div>
        </section>
-       
-       
-       
-       
-       
-       
-       
-       
-       
 
     </main>
  

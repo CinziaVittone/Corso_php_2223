@@ -23,6 +23,8 @@
 //null se non passo dal form | errore o campo obbligatorio —> NON ESISTE IL VALORE, MANCA IL CAMPO
 
 var_dump(INPUT_POST);
+
+$first_name = filter_input(INPUT_POST,'first_name',FILTER_SANITIZE_SPECIAL_CHARS);
 var_dump($first_name);
 
 FILTER_VALIDATE_EMAIL;

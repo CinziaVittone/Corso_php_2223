@@ -29,7 +29,7 @@ class ValidateDate implements Validable{
         }else{
            return false;
            //return $dt; //non li fa passare quelli con numero > 31
-        }   
+        }; 
     }
 
     public function message(){

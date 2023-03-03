@@ -1,3 +1,14 @@
+
+<?php
+   
+
+    //nome utente
+    $validatorUsername = new ValidateRequired();
+    $validatedUsername = $validatorUsername -> isValid($_POST["username"]);
+    $validatedUsernameClass = $validatorUsername -> isValid($_POST["username"]) ? "" : "is-invalid";
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,28 +30,69 @@
         </div>
 
         <div class="col-sm-4">
-            <form class="mt-1 mt-md-5" action="register_user.php" method="post">
+            <form class="mt-1 mt-md-5" action="create_user.php" method="post">
                 <!-- dati utente -->
                 <div class="mb-3">
                     <label for="nome" class="form-label">nome</label>
-                    <input type="nome" class="form-control" name="first_name"id="nome">
+                    <input type="text"  value="<?= $validatorName -> getValue() ?>" class="form-control " name="first_name"id="nome">
+                    <!-- apriamo un tag php per usare la validazione -->
+                    <?php
+
+                    /*
+                    //CASO 1
+                    GET isset($validatedName) false
+                    first_name = "Cinzia" => $validatedName = "Cinzia" | iseet($validatedName) true &&  false
+                    POST isset($validatedName) true
+
+                    // CASO 2
+                    GET isset($validatedName) false
+                    first_name = "" => $validatedName = false
+                    POST isset($validatedName) ture && !false | isset($validatedName) true && false
+                    */
+
+                    // se è diverso da validatedName
+                    // inizialmente nessu avviso, ma se non compoli allora lo dice
+                    if ($validatorName -> isValid()){?>
+                        <div class="invalid-feedback">
+                            <?= $validatorName -> getMessage() ?>
+                        </div>
+                    <?php
+                    }
+                    ?>
+                    
                 </div>
                 
                 <div class="mb-3">
                     <label for="cognome" class="form-label">cognome</label>
-                    <input type="cognome" class="form-control" name="last_name"id="cognome">
+                    <input type="text" class="form-control <?php echo $validatedSurnameClass ?>"  name="last_name"id="cognome">
+                    <?php 
+                    if (isset($validatedSurname) && !$validatedSurname){?>
+                    <div class="invalid-feedback">
+                        Cognome obbligatorio
+                    </div>
+                    <?php
+                    }
+                    ?>
                 </div>
 
                 <div class="mb-3">
                     <label for="data_di_nascita" class="form-label">data di nascita</label>
                     <!-- <input type="data_di_nascita" class="form-control" name="birthday"id="data_di_nascita"> -->
-                    <input type="date" id="birthday" name="birthday">
+                    <input type="date" class="form-control <?php echo $validatedBirthdayClass ?>" id="birthday" name="birthday">
+                    <?php 
+                    if (isset($validatedBirthday) && !$validatedBirthday){?>
+                    <div class="invalid-feedback">
+                        Data di nascita obbligatoria
+                    </div>
+                    <?php
+                    }
+                    ?>
                 </div>
 
                 <div class="mb-3">
-                    <label for="luogo_di_nascita" class="form-label">luogo di nascita</label>
-                    <!-- <input type="luogo_di_nascita" class="form-control" name="birth_place"id="luogo_di_nascita"> -->
-                    <select class="form-control" id="luogo_di_nascita">
+                    <label for="birth_place" class="form-label">luogo di nascita</label>
+                    <!-- <input type="birth_place" class="form-control" name="birth_place"id="birth_place"> -->
+                    <select class="form-control <?php echo $validatedBirthPlaceClass ?>" id="birth_place">
                     <option value="none"></option>       
   <option value="AG">Agrigento</option>      
   <option value="AL">Alessandria</option>
@@ -150,14 +202,30 @@
   <option value="VI">Vicenza</option>
   <option value="VT">Viterbo</option>
                     </select>
+                    <?php 
+                    if (isset($validatedBirthPlace) && !$validatedBirthPlace){?>
+                    <div class="invalid-feedback">
+                        Luogo di nascita obbligatorio
+                    </div>
+                    <?php
+                    }
+                    ?>
                 </div>
                
 
                 <div class="mb-3">
                     <label for="sesso" class="form-label">sesso</label>
                     <!-- <input type="sesso" class="form-control" name="gender"id="sesso"> -->
-                    <input type="radio" name="gender" value="m"/>M
-                    <input type="radio" name="gender" value="f"/>F
+                    <input type="radio" class="form-check-input <?php echo $validatedGenderClass ?>" name="gender" value="m"/>M
+                    <input type="radio" class="form-check-input <?php echo $validatedGenderClass ?>" name="gender" value="f"/>F
+                    <?php 
+                    if (isset($validatedGender) && !$validatedGender){?>
+                    <div class="invalid-feedback">
+                        Genere obbligatorio
+                    </div>
+                    <?php
+                    }
+                    ?>
                     <!-- <select class="form-control" id="sesso">
 	                <option value="none" selected></option>
 	                <option value="M">M</option>
@@ -168,12 +236,28 @@
                 <!-- nome utente(email) e password -->
                 <div class="mb-3">
                     <label for="email" class="form-label">nome utente</label>
-                    <input type="email" class="form-control" name="username"id="email">
+                    <input type="email" class="form-control <?php echo $validatedUsernameClass ?>" name="username"id="email">
+                    <?php 
+                    if (isset($validatedUsername) && !$validatedUsername){?>
+                    <div class="invalid-feedback">
+                        Campo obbligatorio
+                    </div>
+                    <?php
+                    }
+                    ?>
                 </div>
 
                 <div class="mb-3">
                     <label for="password" class="form-label">password</label>
-                    <input type="password" class="form-control" name="password"id="password">
+                    <input type="password" class="form-control <?php echo $validatedPasswordClass ?>" name="password"id="password">
+                    <?php 
+                    if (isset($validatedPassword) && !$validatedPassword){?>
+                    <div class="invalid-feedback">
+                        Campo obbligatorio
+                    </div>
+                    <?php
+                    }
+                    ?>
                 </div>
 
                 <button class="btn btn-primary btn-sm"  type="submit"> Registrati </button>
