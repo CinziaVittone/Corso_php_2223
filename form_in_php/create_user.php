@@ -70,7 +70,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         <section class="row">
             <div class="col-sm-3">
-                ciccio
             </div>
             <div class="col-sm-6">
                 <form class="mt-1 mt-md-5" action="create-user.php" method="post">
@@ -167,7 +166,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     <div class="mb-3">
                         <!-- USERNAME -->
                         <label for="username" class="form-label">nome utente</label>
-                        <input type="text" value="<?= $validatorUsername->getValue() ?>"
+                        <input type="email" value="<?= $validatorUsername->getValue() ?>"
                         class="form-control <?php echo !$validatorUsername->getValid() ? 'is-invalid':'' ?>" name="username" id="username">
                         <?php
                         if (!$validatorUsername->getValid()) { ?>
@@ -183,7 +182,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     <div class="mb-3">
                         <!-- PASSWORD -->
                         <label for="password" class="form-label">password</label>
-                        <input type="text" value="<?= $validatorPassword->getValue() ?>"
+                        <input type="password" value="<?= $validatorPassword->getValue() ?>"
                         class="form-control <?php echo !$validatorPassword->getValid() ? 'is-invalid':'' ?>" name="password" id="password">
                         <?php
                         if (!$validatorPassword->getValid()) { ?>

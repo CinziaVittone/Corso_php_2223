@@ -30,6 +30,4 @@ var_dump($first_name);
 FILTER_VALIDATE_EMAIL;
 var_dump(FILTER_VALIDATE_EMAIL);
 
-
-
 ?>
