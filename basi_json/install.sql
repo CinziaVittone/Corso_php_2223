@@ -35,9 +35,11 @@ CREATE TABLE province(
 --elimina la tabella 
 DROP TABLE province;
 
---estraggo i dati che mi servono
+--estraggo i dati che mi servono e che porterò in php
+SELECT id_regione FROM regioni WHERE nome = "Sicilia";
 
 --inserimento dati nella tabella
-
+INSERT INTO province(id_regione, nome, sigla) VALUES(15, "Agrigento", "AG");
+ 
 --svuota la tabella, ma non elimina la struttura
 TRUNCATE TABLE province;
