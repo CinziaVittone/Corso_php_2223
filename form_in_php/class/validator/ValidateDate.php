@@ -2,12 +2,27 @@
 
 class ValidateDate implements Validable{
 
+    /** @var string rappresenta il valore immesso nel form ripulito */
+    private $value;
+    private $message;
+
+    /** se il valore è valido e se devo visualizzare il messaggio  */
+    private $valid;
+
+    public function __construct($default_value='',$message='❗️È obbligatorio😬') {
+        $this->value = $default_value;
+        $this->valid = true;
+        $this->message = $message;
+    }
+
     public function isValid($value){
 
         //trim()elimina gli spazi all' inizio e alla fine di una stringa
         //strip_tags() elimina i tag
         //riassegno
-        $sanitize = trim(strip_tags($value));//posso scriverli tutti su una riga 
+        //$sanitize = trim(strip_tags($value));//posso scriverli tutti su una riga 
+        $strip_tag = strip_tags($value);
+        $sanitize = trim($strip_tag);
 
         //j se avessi voluto il giorno senza lo 0 davanti
         $dt = DateTime::createFromFormat("d/m/Y", $sanitize);
@@ -32,9 +47,20 @@ class ValidateDate implements Validable{
         }; 
     }
 
-    public function message(){
-
-        return "DATA NON VALIDA!";
+    public function getValue()
+    {
+      return $this->value;
     }
+
+    public function getMessage()
+    {
+      return $this->message;
+    }
+
+    public function getValid()
+    {
+      return $this->valid;
+    }
+
 }
 ?>

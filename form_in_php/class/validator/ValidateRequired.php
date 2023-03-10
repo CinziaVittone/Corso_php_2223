@@ -34,6 +34,7 @@ class ValidateRequired implements Validable{
             $this -> valid = false;
             return false;
         }
+        
         $this -> valid = true;
         $this -> value = $valueNoSpace;
         return $valueNoSpace;
