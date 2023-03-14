@@ -6,6 +6,12 @@ require "./class/validator/Validable.php";
 require "./class/validator/ValidateRequired.php";
 require "./class/validator/ValidateDate.php";
 require "./class/validator/ValidateMail.php";
+
+//per la validazione importo i relativi file
+require "../config.php";
+require "./class/registry/it/Regione.php";
+require "./class/registry/it/Provincia.php";
+
 //che a sua volta richiede l' interfaccia
 print_r($_POST);
 
@@ -15,7 +21,7 @@ print_r($_SERVER["REQUEST_METHOD"]);
 
 $first_name = new ValidateRequired("","❗️Il nome è obbligatorio😬");//istanza che valida il nome
 $last_name = new ValidateRequired("","❗️Il cognome è obbligatorio😬");
-$birtday = new ValidateRequired("","❗️La data di nascita è obbligatoria😬");
+$birthday = new ValidateRequired("","❗️La data di nascita è obbligatoria😬");
 $birth_place = new ValidateRequired("","❗️Il luogo di nascita è obbligatorio😬");
 $username_required = new ValidateRequired("","❗️Lo username è obbligatorio😬");
 $gender = new ValidateRequired("","❗️Il genere è obbligatorio😬");
@@ -28,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     //metodo che controlla
     $first_name->isValid($_POST["first_name"]);
     $last_name-> isValid($_POST["last_name"]);
-    $birtday-> isValid($_POST["birthday"]);
+    $birthday-> isValid($_POST["birthday"]);
     $birth_place-> isValid($_POST["birth_place"]);
     $username_required-> isValid($_POST["username"]);
     $gender-> isValid($_POST["gender"]);
@@ -112,16 +118,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <label for="birthday" class="form-label">data di nascita</label>
                         <input type="date" value="<?= $birthday->getValue() ?>"
                         class="form-control <?php echo !$birthday->getValid() ? 'is-invalid':'' ?>" name="birthday" id="birthday">
-                        <?php if (!$birtday->getValid()) : ?>
+                        <?php if (!$birthday->getValid()) : ?>
                             <div class="invalid-feedback">
-                                <?php echo $birtday->getMessage() ?>
+                                <?php echo $birthday->getMessage() ?>
                             </div>
                         <?php endif ?>
                     </div>
 
 
                     <div class="mb-3">
-                        <!-- BIRTHPLACE -->
+                        <!-- BIRTH_PLACE -->
                         <label for="birth_place" class="form-label">luogo di nascita</label>
                         <input type="text" value="<?= $$birth_place->getValue() ?>"
                         class="form-control <?php echo !$$birth_place->getValid() ? 'is-invalid':'' ?>" name="birth_place" id="birth_place">
@@ -147,6 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                                 <label for="birth_region" class="form-label">regione</label>
                                 <select class="birth_region "name="birth_region" id="birth_region">
+                                    <option value=""></option>
                                     <?php foreach(Regione::all() as $regione) : ?>
                                         <!-- sintassi alternative di echo -->
                                     <option value="<?= $regione->id_regione?>"><?= $regione->nome?></option>
@@ -156,8 +163,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                             <div class="col">
                                 <label for="birth_province" class="form-label">provincia</label>
-                                <select class="birth_province "name="birth_province" id="birth_province">
-                                    <option value="12">Asti</option>
+                                    <select class="birth_province "name="birth_province" id="birth_province">
+                                    <option value=""></option>
+                                    <?php foreach(Provincia::all() as $provincia) : ?>
+                                    <option value="<?= $provincia->id_provincia ?>"><?= $provincia->nome ?></option>
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
 
