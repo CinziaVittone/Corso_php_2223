@@ -2,15 +2,23 @@
 
 //error_reporting(E_ALL); li vede tutti
 //error_reporting(0); li spegne tutti
+
+use Registry\it\Provincia;
+use Registry\it\Regione;
+use validator\ValidateDate;
+use validator\ValidateMail;
+use validator\ValidateRequired;
+
+require "../config.php";//serve solo più questo
+require "./autoload.php";
+/* li commento ora che usiamo l' autoloading 
 require "./class/validator/Validable.php";
 require "./class/validator/ValidateRequired.php";
 require "./class/validator/ValidateDate.php";
 require "./class/validator/ValidateMail.php";
-
-//per la validazione importo i relativi file
-require "../config.php";
 require "./class/registry/it/Regione.php";
 require "./class/registry/it/Provincia.php";
+*/
 
 //che a sua volta richiede l' interfaccia
 print_r($_POST);
@@ -21,10 +29,13 @@ print_r($_SERVER["REQUEST_METHOD"]);
 
 $first_name = new ValidateRequired("","❗️Il nome è obbligatorio😬");//istanza che valida il nome
 $last_name = new ValidateRequired("","❗️Il cognome è obbligatorio😬");
-$birthday = new ValidateRequired("","❗️La data di nascita è obbligatoria😬");
+$birthday = new ValidateDate("","❗️La data di nascita è obbligatoria😬");
 $birth_place = new ValidateRequired("","❗️Il luogo di nascita è obbligatorio😬");
-$username_required = new ValidateRequired("","❗️Lo username è obbligatorio😬");
 $gender = new ValidateRequired("","❗️Il genere è obbligatorio😬");
+
+$username_required = new ValidateRequired("","❗️Lo username è obbligatorio😬");
+$username_email  = new ValidateMail('','❗️Formato email non valido😬');
+
 $password = new ValidateRequired("","❗️La password è obbligatoria😬");
 
 
@@ -36,9 +47,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $last_name-> isValid($_POST["last_name"]);
     $birthday-> isValid($_POST["birthday"]);
     $birth_place-> isValid($_POST["birth_place"]);
-    $username_required-> isValid($_POST["username"]);
     $gender-> isValid($_POST["gender"]);
+    $username_required-> isValid($_POST["username"]);
     $password-> isValid($_POST["password"]);
+
+    if($first_name->getValid() && $last_name->getValid()){
+        
+    }
 
     //usato peril caso del radio
     //$value = isset($_POST["gender"]) ? $_POST["gender"] : "";
@@ -80,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <div class="col-sm-3">
             </div>
             <div class="col-sm-6">
-                <form class="mt-1 mt-md-5" action="create-user.php" method="post">
+                <form class="mt-1 mt-md-5" action="create_user.php" method="post">
 
                     <!-- DATI UTENTE -->
 
@@ -129,8 +144,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <div class="mb-3">
                         <!-- BIRTH_PLACE -->
                         <label for="birth_place" class="form-label">luogo di nascita</label>
-                        <input type="text" value="<?= $$birth_place->getValue() ?>"
-                        class="form-control <?php echo !$$birth_place->getValid() ? 'is-invalid':'' ?>" name="birth_place" id="birth_place">
+                        <input type="text" value="<?= $birth_place->getValue() ?>"
+                        class="form-control <?php echo !$birth_place->getValid() ? 'is-invalid':'' ?>" name="birth_place" id="birth_place">
                         <?php if(!$birth_place->getValid()):?>
                             <div class="invalid-feedback">
                                 <?php echo $birth_place->getMessage() ?>  
@@ -139,7 +154,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </div>
 
                     <div class="mb-3">
-                    <!-- BIRTHCITY -->
+                    <!-- BIRTH_PLACE -->
                         <div class="row">
                         
                    
@@ -150,7 +165,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             </div>
 
                             <div class="col">
-
                                 <label for="birth_region" class="form-label">regione</label>
                                 <select class="birth_region "name="birth_region" id="birth_region">
                                     <option value=""></option>

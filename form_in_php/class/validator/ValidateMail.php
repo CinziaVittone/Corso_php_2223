@@ -1,5 +1,5 @@
 <?php
-
+namespace validator;
 //creo la classe
 class ValidateMail implements Validable{
 

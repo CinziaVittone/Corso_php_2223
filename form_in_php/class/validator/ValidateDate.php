@@ -1,4 +1,5 @@
 <?php
+namespace validator;
 
 class ValidateDate implements Validable{
 
@@ -25,7 +26,7 @@ class ValidateDate implements Validable{
         $sanitize = trim($strip_tag);
 
         //j se avessi voluto il giorno senza lo 0 davanti
-        $dt = DateTime::createFromFormat("d/m/Y", $sanitize);
+        $dt = \DateTime::createFromFormat("d/m/Y", $sanitize);
         //echo $value."\n";
 
         //echo $dt -> format("d/m/Y") . " === " . $sanitize . "\n";
