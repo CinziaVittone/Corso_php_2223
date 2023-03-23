@@ -12,6 +12,19 @@ class User{
     public $gender;
     public $username;
     public $password;
+
+    public function label(){
+        return $this -> first_name . " " . $this -> last_name;
+    }
+
+    public static function array_to_user(array $class_array):User
+    {
+        $user = new User;
+        foreach ($class_array as $class_attribute => $value_of_class_attribute) {
+            $user -> $class_attribute = $value_of_class_attribute;
+        }
+        return $user;
+    }
 }
 
 ?>

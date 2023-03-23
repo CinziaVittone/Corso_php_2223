@@ -27,11 +27,9 @@ $user -> password = md5('Password');
 //READ
 $result = $crud -> read();
 
-/* if di cui non capisco l' utilità
 if(count($resul) == 1){
-    echo "Test utente inserito";
+    echo "Test utente inserito OK";
 }
-*/
 
 print_r($result);
 

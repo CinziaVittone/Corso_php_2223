@@ -1,5 +1,7 @@
 <?php
 
+use crud\UserCRUD;
+use models\User;
 use Registry\it\Provincia;
 use Registry\it\Regione;
 use validator\ValidateDate;
@@ -11,8 +13,10 @@ require "../config.php";
 require "./autoload.php";
 
 // die();
-/**
+/*
  * TODO: Implementare criteri mutipli di valiidazione (array di validazioni non singole)
+ * 'first_name' => [new ValidateRequired('','Il Nome è obblicatorio')],
+ * 'username'  => [new ValidateRequired('','Username è obbligaztorio'),new ValidateMail('','')]
  */
 $validatorRunner = new ValidatorRunner([
     'first_name' => new ValidateRequired('','Il Nome è obbligatorio'),
@@ -34,11 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $validatorRunner->isValid();
   
     if($validatorRunner->getValid()){
-        echo "posso inviare i dati al server";
+        $user = User::array_to_user($_POST);
+        $crud = new UserCRUD();
+        $crud -> create($user);
     }
 }
-
-
 
 ?>
 

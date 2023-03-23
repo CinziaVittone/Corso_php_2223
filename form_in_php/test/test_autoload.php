@@ -14,7 +14,7 @@ spl_autoload_register(function($className){
 
     $className = str_replace("\\", "/", $className);
 
-    include "./form_in_php/class/".$className.".php";
+    require "./form_in_php/class/".$className.".php";
 
 });
 
