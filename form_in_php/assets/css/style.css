@@ -1,0 +1,9 @@
+body{
+    padding-bottom: 4rem;
+}
+
+.footer-bottom{
+    position:fixed;
+    width: 100%;
+    bottom: 0;
+}

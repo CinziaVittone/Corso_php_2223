@@ -18,6 +18,13 @@ $class_array=[
     "password" => "Password"
 ];
 
+// converto l'array in un oggetto
+// $class_name = User::class;
+// $user = new $class_name;
+// foreach ($class_array as $class_attribute => $value_of_class_attribute) {
+//     //first_name al primo giro --> diventa $user->first_name = "Violet"
+//     $user->$class_attribute = $value_of_class_attribute;
+// }
 //$class_name = User::class;
 //$user = new $class_name;
 

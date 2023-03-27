@@ -10,7 +10,6 @@ include "form_in_php/test/test_autoload.php";
 (new PDO(DB_DSN,DB_USER,DB_PASSWORD))->query("TRUNCATE TABLE user;");
 $crud = new UserCRUD();
 $user = new User();
-
 $user->first_name = "Luigi";
 $user->last_name = "Verdi";
 $user->birth_city = "Milano";
@@ -21,21 +20,24 @@ $user->provincia_id = 57;
 $user->username = "luigiverdi@gmail.com";
 $user->password = md5('Password');
 
-$result = $crud->read(); //7 array | vuoto 
-if($result === false ){
-    echo "\nDatabase iniziale vuoto\n";
-};
-
+//CREATE
 $crud->create($user);
+print_r($crud->read(1));
 
-$result = $crud->read(1); // User
-if(class_exists(User::class) && get_class($result) == User::class ){
-    echo "\nTest read utente esistente test superato\n";
-}
+$user = $crud->read(1);
+$user->first_name = "Paolo";
+$user->last_name = "Azzurri";
+$user->birthday = "2014-04-01";
+$user->birth_city = "Roma";
+$user->regione_id = "4";
+$user->provincia_id = "8";
+$user->gender = "M";
+$user->username = "paoloazzurri@gmail.com";
+$user->password = md5('Password');
 
-// TODO: Update dello stesso utente
-
-var_dump($result);
-
+print_r("\nModifiche effettuate: ".$crud->update($user)."\n");
+print_r($crud->read(1));
 
 
+
+?>

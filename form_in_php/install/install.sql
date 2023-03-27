@@ -214,7 +214,11 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `first_name`, `last_name`, `birthday`, `birth_city`, `regione_id`, `provincia_id`, `gender`, `username`, `password`) VALUES
-(1, 'Mario', 'Rossi', '2023-03-15', 'Torino', 18, 96, 'M', 'mariorossi@email.com', '5f4dcc3b5aa765d61d8327deb882cf99');
+(1, 'Mario', 'Rossi', '2023-03-15', 'Torino', 12, 96, 'M', 'mariorossi@email.com', '5f4dcc3b5aa765d61d8327deb882cf99'),
+(2, 'Giuseppe', 'Verdi', '1960-10-12', 'Sassari', 14, 88, 'M', 'giuseppeverdi@gmail.com', 'bbb222'),
+(3, 'Violet', 'Evergarden', '1997-3-15', 'Savona', 8, 89, 'F', 'violetevergarden@gmail.com', 'ccc333'),
+(4, 'Dorothy', 'Rosa', '2003-11-17', 'Trapani', 15, 97, 'F', 'dorothyrosa@gmail.com', 'ddd444'),
+(5, 'Dorian', 'Grey', '1978-03-19', 'Siracusa', 15, 91, 'M', 'doriangrey@gmail.com', 'eee555');
 
 --
 -- Indici per le tabelle scaricate

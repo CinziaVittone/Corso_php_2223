@@ -23,14 +23,13 @@ class UserCRUD{
         $stm -> bindValue(':provincia_id', $user -> provincia_id, \PDO::PARAM_INT);
         $stm -> bindValue(':gender', $user -> gender, \PDO::PARAM_STR);
         $stm -> bindValue(':username', $user -> username, \PDO::PARAM_STR);
-        $stm -> bindValue(':password', $user -> password, \PDO::PARAM_STR);
+        $stm -> bindValue(':password', md5($user -> password), \PDO::PARAM_STR);
         $stm -> execute();
     }
 
     public function update(User $user)
     {
-        //TODO su tutto, non solo un parametro, simile a create, per ogni elemento un bindValue
-        //per la risposta simile al delete, ci dice quante cose modificate
+        echo "Sono dentro UPDATE";
         $query = "UPDATE table_name
         SET first_name = :first_name, 
             last_name =  :last_name,
@@ -40,24 +39,25 @@ class UserCRUD{
             provincia_id =  :provincia_id,
             username =  :username,
             password =  :password
-        WHERE  where user_id = :user_id";
+        WHERE  where user_id = :user_id;";
 
         $conn = new \PDO(DB_DSN,DB_USER,DB_PASSWORD);
-        $stm = $conn->prepare($query);
-        $stm->bindValue(':first_name',$user->first_name,\PDO::PARAM_STR);
-        $stm->bindValue(':last_name',$user->last_name,\PDO::PARAM_STR);
-        $stm->bindValue(':birthday',$user->birthday,\PDO::PARAM_STR);
-        $stm->bindValue(':birth_city',$user->birth_city,\PDO::PARAM_STR);
-        $stm->bindValue(':regione_id',$user->regione_id,\PDO::PARAM_INT);
-        $stm->bindValue(':provincia_id',$user->provincia_id,\PDO::PARAM_INT);
-        $stm->bindValue(':username',$user->username,\PDO::PARAM_STR);
-        $stm->bindValue(':password',$user->password,\PDO::PARAM_STR);
-        $stm->bindValue(':gender',$user->password,\PDO::PARAM_STR);
-
-        $stm->execute();
+        $stm = $conn -> prepare($query);
+        $stm -> bindValue(':first_name', $user -> first_name, \PDO::PARAM_STR);
+        $stm -> bindValue(':last_name', $user -> last_name, \PDO::PARAM_STR);
+        $stm -> bindValue(':birthday', $user -> birthday, \PDO::PARAM_STR);
+        $stm -> bindValue(':birth_city', $user -> birth_city, \PDO::PARAM_STR);
+        $stm -> bindValue(':regione_id', $user -> regione_id, \PDO::PARAM_INT);
+        $stm -> bindValue(':provincia_id', $user -> provincia_id, \PDO::PARAM_INT);
+        $stm -> bindValue(':gender', $user -> gender, \PDO::PARAM_STR);
+        $stm -> bindValue(':username', $user -> username, \PDO::PARAM_STR);
+        $stm -> bindValue(':password', md5($user -> password), \PDO::PARAM_STR);
+        //$stm->bindValue(':id_user', $user->id_user, \PDO::PARAM_INT);
+        $stm -> execute();
+        return $stm->rowCount();
     }
 
-    public function read(int $user_id = null)
+    public function read(int $user_id = null):User|array|bool
     {
         $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
         if(!is_null($user_id)){

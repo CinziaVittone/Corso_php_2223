@@ -30,6 +30,10 @@ class ValidatorRunner
         $all_valid = true;
         foreach ($this->validatorList as $key => $instance_validator) {
             $all_valid = $instance_validator->getValid() && $all_valid;
+            if($all_valid == false) {
+                //return $instance_validator;
+                break;
+            }
         }
         return $all_valid;
     }

@@ -3,6 +3,7 @@ namespace models;
 
 class User{
     
+    //public $id_user;
     public $first_name;
     public $last_name;
     public $birthday;
@@ -13,10 +14,13 @@ class User{
     public $username;
     public $password;
 
+    //rappresenta nome e cognome dell'utente di seguito
     public function label(){
         return $this -> first_name . " " . $this -> last_name;
     }
 
+    //$class_array array associativo che contiene tutte le informazioni degli attributi dell'oggetto 
+    //user che verrà creato
     public static function array_to_user(array $class_array):User
     {
         $user = new User;
