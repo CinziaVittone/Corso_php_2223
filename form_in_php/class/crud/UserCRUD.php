@@ -10,8 +10,8 @@ class UserCRUD{
 
     public function create(User $user)
     {
-        $query = "INSERT INTO user (first_name, last_name, birthday, birth_city, id_regione, provincia_id, gender, username, password)
-                    VALUES (:first_name, :last_name, :birthday, :birth_city, :id_regione, :provincia_id, :gender, :username, :password)";
+        $query = "INSERT INTO user (first_name, last_name, birthday, birth_city, id_regione, id_provincia, gender, username, password)
+                    VALUES (:first_name, :last_name, :birthday, :birth_city, :id_regione, :id_provincia, :gender, :username, :password)";
                     //parametri indicati con i :
         $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
         $stm = $conn -> prepare($query);
@@ -20,7 +20,7 @@ class UserCRUD{
         $stm -> bindValue(':birthday', $user -> birthday, \PDO::PARAM_STR);
         $stm -> bindValue(':birth_city', $user -> birth_city, \PDO::PARAM_STR);
         $stm -> bindValue(':id_regione', $user -> id_regione, \PDO::PARAM_INT);
-        $stm -> bindValue(':provincia_id', $user -> provincia_id, \PDO::PARAM_INT);
+        $stm -> bindValue(':id_provincia', $user -> id_provincia, \PDO::PARAM_INT);
         $stm -> bindValue(':gender', $user -> gender, \PDO::PARAM_STR);
         $stm -> bindValue(':username', $user -> username, \PDO::PARAM_STR);
         $stm -> bindValue(':password', md5($user -> password), \PDO::PARAM_STR);
@@ -36,7 +36,7 @@ class UserCRUD{
             birthday =  :birthday,
             birth_city =  :birth_city,
             id_regione =  :id_regione,
-            provincia_id =  :provincia_id
+            id_provincia =  :id_provincia
         WHERE  where user_id = :user_id;";
 
         $conn = new \PDO(DB_DSN,DB_USER,DB_PASSWORD);
@@ -46,7 +46,7 @@ class UserCRUD{
         $stm -> bindValue(':birthday', $user -> birthday, \PDO::PARAM_STR);
         $stm -> bindValue(':birth_city', $user -> birth_city, \PDO::PARAM_STR);
         $stm -> bindValue(':id_regione', $user -> id_regione, \PDO::PARAM_INT);
-        $stm -> bindValue(':provincia_id', $user -> provincia_id, \PDO::PARAM_INT);
+        $stm -> bindValue(':id_provincia', $user -> id_provincia, \PDO::PARAM_INT);
         $stm -> bindValue(':gender', $user -> gender, \PDO::PARAM_STR);
         //$stm->bindValue(':id_user', $user->id_user, \PDO::PARAM_INT);
         $stm -> execute();

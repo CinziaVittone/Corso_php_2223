@@ -16,7 +16,7 @@ $user -> birth_city = "Reggio Calabria";
 $user -> birthday = "1970-03-07";
 $user -> gender = "M";
 $user -> id_regione = "3";
-$user -> provincia_id = "81";
+$user -> id_provincia = "81";
 $user -> username = "giovanniraspini@gmail.com";
 $user -> password = md5('Password');
 

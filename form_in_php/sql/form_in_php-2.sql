@@ -203,7 +203,7 @@ CREATE TABLE `user` (
   `birthday` date NOT NULL,
   `birth_city` varchar(255) NOT NULL,
   `id_regione` int(11) NOT NULL,
-  `provincia_id` int(11) NOT NULL,
+  `id_provincia` int(11) NOT NULL,
   `gender` enum('M','F') NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL
@@ -213,7 +213,7 @@ CREATE TABLE `user` (
 -- Dump dei dati per la tabella `user`
 --
 
-INSERT INTO `user` (`user_id`, `first_name`, `last_name`, `birthday`, `birth_city`, `id_regione`, `provincia_id`, `gender`, `username`, `password`) VALUES
+INSERT INTO `user` (`user_id`, `first_name`, `last_name`, `birthday`, `birth_city`, `id_regione`, `id_provincia`, `gender`, `username`, `password`) VALUES
 (1, 'Mario', 'Rossi', '2023-03-15', 'Torino', 18, 96, 'M', 'mariorossi@email.com', '5f4dcc3b5aa765d61d8327deb882cf99');
 
 --

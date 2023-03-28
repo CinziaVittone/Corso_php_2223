@@ -22,7 +22,7 @@ $user = $crud -> read($user_id);
 
 print_r($_POST);//vedo i dati che passo nel post
 //Array ( [first_name] => Mario [last_name] => Bros [birthday] => 2023-03-15 [birth_city] => Torino 
-//[id_regione] => 12 [provincia_id] => 96 [gender] => M [username] => mariobros@gmail.com [password] => aaa111 )
+//[id_regione] => 12 [id_provincia] => 96 [gender] => M [username] => mariobros@gmail.com [password] => aaa111 )
 
 //come argomento un array, elenco delle validazioni che devo controllare
 //le variabili idventano indici degli array coon dentro il validatore che serve
@@ -35,7 +35,7 @@ $validatorRunner = new ValidatorRunner([
     'gender'  => new ValidateRequired($user -> gender,'Il Genere è obbligatorio😬'),
     'birth_city'  => new ValidateRequired($user -> birth_city,'La città  è obbligatoria😬'),
     'id_regione'  => new ValidateRequired($user -> id_regione,'La regione è obbligatoria😬'),
-    'id_provincia'  => new ValidateRequired($user -> provincia_id,'La provincia è obbligatoria😬'),
+    'id_provincia'  => new ValidateRequired($user -> id_provincia,'La provincia è obbligatoria😬'),
 
     'username'  => new ValidateRequired($user -> username,'Lo username è obbligatorio😬'),
     // 'username:email'  => new ValidateMail('','Formato email non valido'),
@@ -151,7 +151,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="col">
                         <label for="birth_province" class="form-label">Provincia</label>
                         <!-- select, voglio ottenere l'elenco province -->
-                        <select id="birth_province" class="form-select birth_province" name="provincia_id">
+                        <select id="birth_province" class="form-select birth_province" name="id_provincia">
                         <option value=""></option>
                                 <?php foreach(Provincia::all() as $provincia) : ?> 
                                     <option value="<?= $provincia->id_provincia ?>"><?= $provincia->nome ?></option>

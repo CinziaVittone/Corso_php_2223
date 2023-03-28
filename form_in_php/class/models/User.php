@@ -9,7 +9,7 @@ class User{
     public $birthday;
     public $birth_city;
     public $id_regione;
-    public $provincia_id;
+    public $id_provincia;
     public $gender;
     public $username;
     public $password;
