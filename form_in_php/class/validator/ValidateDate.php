@@ -26,7 +26,7 @@ class ValidateDate implements Validable{
         $sanitize = trim($strip_tag);
 
         //j se avessi voluto il giorno senza lo 0 davanti
-        $dt = \DateTime::createFromFormat("d/m/Y", $sanitize);
+        $dt = \DateTime::createFromFormat("Y-m-d", $sanitize);
         //echo $value."\n";
 
         //echo $dt -> format("d/m/Y") . " === " . $sanitize . "\n";
@@ -40,8 +40,8 @@ class ValidateDate implements Validable{
 
         // se in expected mettessi una stringa, non me lo farebbe passare
         //controlla solo il formato, non i singoli valori, quindi i valori > 31 li fa passare
-        if($dt && $dt -> format("d/m/Y") === $sanitize){
-            return $dt -> format("d/m/Y");
+        if($dt && $dt -> format("Y-m-d") === $sanitize){
+            return $dt -> format("Y-m-d");
         }else{
            return false;
            //return $dt; //non li fa passare quelli con numero > 31

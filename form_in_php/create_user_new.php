@@ -30,7 +30,7 @@ require "./class/registry/it/Provincia.php";
 $validatorRunner = new ValidatorRunner([
     'first_name' => new ValidateRequired('','Il Nome è obbligatorio😬'),
     'last_name'  => new ValidateRequired('','Il Cognome è obbligatorio😬'),
-    'birthday'  => new ValidateDate('','La data di nascità non è valida😬'),
+    'birthday'  => new ValidateRequired('','La data di nascità non è valida😬'),
     'gender'  => new ValidateRequired('','Il Genere è obbligatorio😬'),
     'birth_city'  => new ValidateRequired('','La città  è obbligatoria😬'),
     'id_regione'  => new ValidateRequired('','La regione è obbligatoria😬'),
@@ -42,7 +42,11 @@ $validatorRunner = new ValidatorRunner([
 ]);
 extract($validatorRunner->getValidatorList());
 
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    print_r($_POST);
     
     $validatorRunner->isValid();
 
@@ -144,11 +148,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                         <?php endif ?>
                     </div>
+
                     <div class="col">
-                        
                         <label for="birth_region" class="form-label">Regione</label>
                              <!-- select, voglio ottenere l'elenco regioni -->
-                        <select id="birth_region" class="form-select birth_region" name="regione_id">
+                        <select id="birth_region" class="form-select birth_region" name="id_regione">
                                 <option value=""></option>
                                 <?php foreach(Regione::all() as $regione) : ?> 
                                     <option value="<?= $regione->id_regione ?>"><?= $regione->nome ?></option>
@@ -159,13 +163,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <?php echo $id_regione->getMessage() ?>
                             </div>
                         <?php endif ?>  
-
-
                         </div>
+                        
                         <div class="col">
                         <label for="birth_province" class="form-label">Provincia</label>
                         <!-- select, voglio ottenere l'elenco province -->
-                        <select id="birth_province" class="form-select birth_province" name="provincia_id">
+                        <select id="birth_province" class="form-select birth_province" name="id_provincia">
                         <option value=""></option>
                                 <?php foreach(Provincia::all() as $provincia) : ?> 
                                     <option value="<?= $provincia->id_provincia ?>"><?= $provincia->nome ?></option>

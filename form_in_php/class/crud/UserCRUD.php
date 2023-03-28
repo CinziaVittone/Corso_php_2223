@@ -36,9 +36,7 @@ class UserCRUD{
             birthday =  :birthday,
             birth_city =  :birth_city,
             regione_id =  :regione_id,
-            provincia_id =  :provincia_id,
-            username =  :username,
-            password =  :password
+            provincia_id =  :provincia_id
         WHERE  where user_id = :user_id;";
 
         $conn = new \PDO(DB_DSN,DB_USER,DB_PASSWORD);
@@ -50,8 +48,6 @@ class UserCRUD{
         $stm -> bindValue(':regione_id', $user -> regione_id, \PDO::PARAM_INT);
         $stm -> bindValue(':provincia_id', $user -> provincia_id, \PDO::PARAM_INT);
         $stm -> bindValue(':gender', $user -> gender, \PDO::PARAM_STR);
-        $stm -> bindValue(':username', $user -> username, \PDO::PARAM_STR);
-        $stm -> bindValue(':password', md5($user -> password), \PDO::PARAM_STR);
         //$stm->bindValue(':id_user', $user->id_user, \PDO::PARAM_INT);
         $stm -> execute();
         return $stm->rowCount();
