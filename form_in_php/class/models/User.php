@@ -8,7 +8,7 @@ class User{
     public $last_name;
     public $birthday;
     public $birth_city;
-    public $regione_id;
+    public $id_regione;
     public $provincia_id;
     public $gender;
     public $username;
