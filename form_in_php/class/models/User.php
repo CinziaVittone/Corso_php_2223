@@ -3,7 +3,7 @@ namespace models;
 
 class User{
     
-    //public $id_user;
+    public $user_id;
     public $first_name;
     public $last_name;
     public $birthday;

@@ -29,7 +29,7 @@ if($result === false ){
 };
 
 //CREATE
-//$crud -> create($user);
+$crud -> create($user);
 
 //READ
 //1.UTENTE ESISTENTE
@@ -38,21 +38,21 @@ $result = $crud -> read(1);//user
 if(class_exists(User::class) && get_class($result) == User::class){
     echo "\nTest read utente ESISTENTE superato\n";
 }
-print_r($result);
+//print_r($result);
 
 //2.UTENTE NON ESISTENTE
-$result = $crud -> read(3);//array vuoto | false
+$result = $crud -> read(3);//false
 if($result == false){
     echo "\nTest read utente NON ESISTENTE superato\n";
 }
-print_r($result);
+//print_r($result);
 
 //3.TUTTI GLI UTENTI
 $result = $crud -> read();//array | vuoto
 if(is_array($result) && count($result) === 1){
     echo "\nTest read di TUTTI GLI UTENTI superato\n";
 }
-print_r($result);
+//print_r($result);
 
 //DELETE poi lo sposto in un file a parte
 $crud -> delete(1);

@@ -21,8 +21,8 @@ $user -> username = "giovanniraspini@gmail.com";
 $user -> password = md5('Password');
 
 //CREATE
-//$crud -> create($user);
-//$crud -> create($user);//per verificare che dia errore se lo duplico
+$crud -> create($user);
+$crud -> create($user);//per verificare che dia errore se lo duplico
 
 //READ
 $result = $crud -> read();
@@ -30,8 +30,7 @@ $result = $crud -> read();
 if(count($resul) == 1){
     echo "Test utente inserito OK";
 }
-
-print_r($result);
+//print_r($result);
 
 try{
     $crud -> create($user);

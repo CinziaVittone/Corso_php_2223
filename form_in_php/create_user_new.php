@@ -46,23 +46,30 @@ extract($validatorRunner->getValidatorList());
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    print_r($_POST);
+    //print_r($_POST);
     
     $validatorRunner->isValid();
-
-    echo "Il form è valido?";
+    var_dump($validatorRunner->isValid());
+    var_dump($validatorRunner->getValid());
   
     if($validatorRunner->getValid()){
-        echo "IL FORM È VALIDO";
+
         $user = User::array_to_user($_POST);
         $crud = new UserCRUD();
-        $crud -> create($user);
 
+        try{
+            $crud -> create($user);
+
+        }catch (\Throwable $th) {
+            echo"Il form è valido";
+        }
         //redirect: posso stabilire un utilizzo
         //header("location: http://www.google.com");
         //posso inserire un percorso relativo alla pagina con lista utenti registrati
         header("location:index_user.php");
-    }
+    }else{
+        echo"Il form non è valido";
+    }        
 }
 
 ?>
@@ -85,9 +92,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- spostiamo header nel file che contiene la VIEW, per comodità creo un frammento che posso spostare -->
     <?php require "./class/views/head_view.php" ?> 
+
         <section class="row">
             <div class="col-sm-8">
                 <form class="mt-1 mt-md-5" action="create_user_new.php" method="post">
+
+                <!-- NOME -->
                     <div class="mb-3">
                         <label for="first_name" class="form-label">Nome</label>
                         <input type="text" 
@@ -96,15 +106,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             name="first_name" 
                             id="first_name"
                         >
-                      
                         <?php if (!$first_name->getValid()) : ?>
                             <div class="invalid-feedback">
                                 <?php echo $first_name->getMessage() ?>
                             </div>
                         <?php endif ?>
-
-
                     </div>
+
+                    <!-- COGNOME -->
                     <div class="mb-3">
                         <label for="last_name" class="form-label">Cognome</label>
                         <input type="text"
@@ -119,6 +128,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                         <?php endif ?>
                     </div>
+
+                    <!-- DATA DI NASCITA -->
                     <div class="mb-3">
                         <label for="birthday" class="form-label">Data Di Nascita</label>
                         <input type="date"
@@ -126,7 +137,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                class="form-control <?php echo !$birthday->getValid() ? 'is-invalid':'' ?>" 
                                name="birthday" 
                                id="birthday">
-                        
                         <?php if (!$birthday->getValid()) : ?>
                             <div class="invalid-feedback">
                                 <?php echo $birthday->getMessage() ?>
@@ -134,14 +144,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php endif ?>
                     </div>
 
-
+                <!-- 3 COLONNE -->
                 <div class="mb-3">
                     <div class="row">
+
+                    <!-- CITTA -->
                     <div class="col">
-                        
                         <label for="birth_city" class="form-label">Città</label>
-                        <input type="text" value="<?= $birth_city->getValue() ?>" class="form-control <?php echo !$birth_city->getValid() ? 'is-invalid':'' ?>" name="birth_city" id="birth_city">
-                        
+                        <input type="text" class="form-control <?php echo !$birth_city->getValid() ? 'is-invalid':'' ?>"
+                        name="birth_city"
+                        id="birth_city">
                         <?php if (!$birth_city->getValid()) : ?>
                             <div class="invalid-feedback">
                                 <?php echo $birth_city->getMessage() ?>
@@ -149,13 +161,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php endif ?>
                     </div>
 
+                    <!-- REGIONE -->
                     <div class="col">
-                        <label for="birth_region" class="form-label">Regione</label>
+                        <label for="id_regione" class="form-label">Regione</label>
                              <!-- select, voglio ottenere l'elenco regioni -->
-                        <select id="birth_region" class="form-select birth_region" name="id_regione">
+                        <select id="id_regione" class="form-select id_regione <?php echo !$id_regione->getValid() ? 'is-invalid':'' ?>"
+                        name="id_regione">
                                 <option value=""></option>
                                 <?php foreach(Regione::all() as $regione) : ?> 
-                                    <option value="<?= $regione->id_regione ?>"><?= $regione->nome ?></option>
+                                    <option <?php $id_regione->getValue() == $regione->id_regione ? 'selected' : '' ?> value="<?= $regione->id_regione ?>"> <?= $regione->nome ?></option>
                                 <?php endforeach;  ?>
                         </select>
                         <?php if (!$id_regione->getValid()) : ?>
@@ -165,13 +179,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php endif ?>  
                         </div>
                         
+                        <!-- PROVINCIA -->
                         <div class="col">
-                        <label for="birth_province" class="form-label">Provincia</label>
+                        <label for="id_provincia" class="form-label">Provincia</label>
                         <!-- select, voglio ottenere l'elenco province -->
-                        <select id="birth_province" class="form-select birth_province" name="id_provincia">
+                        <select id="id_provincia" class="form-select id_provincia <?php echo !$id_provincia->getValid() ? 'is-invalid':'' ?>"
+                        name="id_provincia">
                         <option value=""></option>
                                 <?php foreach(Provincia::all() as $provincia) : ?> 
-                                    <option value="<?= $provincia->id_provincia ?>"><?= $provincia->nome ?></option>
+                                    <option <?php $id_provincia->getValue() == $provincia->id_provincia ? 'selected' : '' ?> value="<?= $provincia->id_provincia ?>"><?= $provincia->nome ?></option>
                                 <?php endforeach;  ?>
                         </select>
                         <?php if (!$id_provincia->getValid()) : ?>
@@ -179,13 +195,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <?php echo $id_provincia->getMessage() ?>
                             </div>
                         <?php endif ?> 
-                            
                     </div>
-                    </div>
+                    </div> 
                 </div>
 
+                <!-- GENDER -->
                     <div class="mb-3">
-                        <!-- <h1><?php echo $gender->getValue() == 'M' ? 'AA':'BB' ?></h1> -->
+                        <!-- <h1><?php //echo $gender->getValue() == 'M' ? 'AA':'BB' ?></h1> -->
                         <label for="gender" class="form-label">Genere</label>
                         <select name="gender" class="form-select <?php echo !$gender->getValid() ? 'is-invalid' :'' ?>" id="gender">
                             <option value=""></option>
@@ -198,11 +214,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <?php echo $gender->getMessage() ?>  
                             </div>
                         <?php endif; ?>
-                        
                     </div>
+
+                    <!-- NOME UTENTE/EMAIL -->
                     <div class="mb-3">
                         <label for="username" class="form-label">Nome Utente / EMAIL</label>
-                        <input type="text"  value="<?php echo $username->getValue() ?>" class="form-control 
+                        <input autocomplete = "no" type="text"  value="<?php echo $username->getValue() ?>" class="form-control 
                             <?php echo (!$username->getValid() && !$username->getValid()) ? 'is-invalid':'' ?>" name="username" id="username">
                         <?php
                         //if (!$username_email->getValid()) : ?>
@@ -218,9 +235,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                         <?php endif ?>
                     </div>
+
+                    <!-- PASSWORD -->
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" value="<?= $password->getValue()  ?>" id="password" name="password" class="form-control <?php echo !$password->getValid() ? 'is-invalid' : ''  ?>">
+                        <input outocomplete="off" type="password" value="<?= $password->getValue()  ?>" id="password" name="password" class="form-control <?php echo !$password->getValid() ? 'is-invalid' : ''  ?>">
                         <?php
                         if (!$password->getValid()) : ?>
                             <div class="invalid-feedback">
@@ -237,6 +256,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       
         </section>
+
+        <?php require "./class/views/footer_view.php" ?>
+
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>

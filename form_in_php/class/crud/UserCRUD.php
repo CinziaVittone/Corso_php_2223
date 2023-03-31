@@ -1,7 +1,6 @@
 <?php
 namespace crud;
 
-use Exception;
 use models\User;
 use PDO;
 
@@ -27,17 +26,16 @@ class UserCRUD{
         $stm -> execute();
     }
 
-    public function update(User $user)
+    public function update($user_id, $user)
     {
-        echo "Sono dentro UPDATE";
-        $query = "UPDATE table_name
-        SET first_name = :first_name, 
-            last_name =  :last_name,
-            birthday =  :birthday,
-            birth_city =  :birth_city,
-            id_regione =  :id_regione,
-            id_provincia =  :id_provincia
-        WHERE  where user_id = :user_id;";
+        $query = "UPDATE 'user' u
+        SET 'first_name' = :first_name, 
+            'last_name' =  :last_name,
+            'birthday' =  :birthday,
+            'birth_city' =  :birth_city,
+            'id_regione' =  :id_regione,
+            'id_provincia' =  :id_provincia
+        WHERE user_id = :user_id;";
 
         $conn = new \PDO(DB_DSN,DB_USER,DB_PASSWORD);
         $stm = $conn -> prepare($query);
@@ -48,7 +46,7 @@ class UserCRUD{
         $stm -> bindValue(':id_regione', $user -> id_regione, \PDO::PARAM_INT);
         $stm -> bindValue(':id_provincia', $user -> id_provincia, \PDO::PARAM_INT);
         $stm -> bindValue(':gender', $user -> gender, \PDO::PARAM_STR);
-        //$stm->bindValue(':id_user', $user->id_user, \PDO::PARAM_INT);
+        $stm->bindValue(':user_id', $user->user_id, \PDO::PARAM_INT);
         $stm -> execute();
         return $stm->rowCount();
     }
@@ -78,6 +76,7 @@ class UserCRUD{
             $stm = $conn -> prepare($query);
             $stm -> execute();
             $result = $stm -> fetchAll(PDO::FETCH_CLASS, User::class);//ho una classe che rappresenta l' utente
+            
             if(count($result) === 0){
                 return false;
             }
