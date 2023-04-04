@@ -17,8 +17,12 @@ require "./autoload.php";
 
 
 $user_id = filter_input(INPUT_GET, "user_id", FILTER_VALIDATE_INT);
+if($user_id){ 
 $crud = new UserCRUD;
 $user = $crud -> read($user_id);
+}else{
+echo "problemi";
+}
 
 //print_r($_POST);//vedo i dati che passo nel post
 //Array ( [first_name] => Mario [last_name] => Bros [birthday] => 2023-03-15 [birth_city] => Torino 
@@ -35,8 +39,7 @@ $validatorRunner = new ValidatorRunner([
     'gender'  => new ValidateRequired($user -> gender,'Il Genere è obbligatorio😬'),
     'birth_city'  => new ValidateRequired($user -> birth_city,'La città  è obbligatoria😬'),
     'id_regione'  => new ValidateRequired($user -> id_regione,'La regione è obbligatoria😬'),
-    'id_provincia'  => new ValidateRequired($user -> id_provincia,'La provincia è obbligatoria😬'),
-    'username'  => new ValidateRequired($user -> username,'Lo username è obbligatorio😬')
+    'id_provincia'  => new ValidateRequired($user -> id_provincia,'La provincia è obbligatoria😬')
     // 'username:email'  => new ValidateMail('','Formato email non valido'),
     
     // TODO: in update usare la password se non è compilata rimane la stessa, se compilata viene cambiata
@@ -44,9 +47,10 @@ $validatorRunner = new ValidatorRunner([
 ]);
 extract($validatorRunner->getValidatorList());
 
+/*
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    echo "SONO NEL PSOT DI EDIT";
+    echo "SONO NEL POST DI EDIT";
 
     $user_id = $_POST['user_id'];
     echo "USER ID: " . $user_id;
@@ -65,6 +69,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("location:index_user.php");
     }
 }
+*/
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    $validatorRunner->isValid();
+    if($validatorRunner->getValid()){
+        $user = User::array_to_user($_POST);
+        $crud = new UserCRUD;
+        $crud->update($user, $_POST['user_id']);
+        var_dump($_POST);
+        //redirect
+        header("location: index_user.php");
+        }else{
+            echo "Il form non è valido";
+        }
+    }
 
 ?>
 
@@ -73,7 +92,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <section class="row">
             <div class="col-sm-8">
-                <form class="mt-1 mt-md-5" action="create_user_new.php" method="post">
+                <form class="mt-1 mt-md-5" action="edit_user.php" method="post">
+                <input type="hidden" id= "user_id" name="user_id" value="<?= $_GET['user_id'] ?>">
 
                 <!-- NOME -->
                     <div class="mb-3">
@@ -129,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <!-- CITTA -->
                     <div class="col">
                         <label for="birth_city" class="form-label">Città</label>
-                        <input type="text" class="form-control <?php echo !$birth_city->getValid() ? 'is-invalid':'' ?>"
+                        <input type="text" value="<?= $birth_city->getValue() ?>" class="form-control <?php echo !$birth_city->getValid() ? 'is-invalid':'' ?>"
                         name="birth_city"
                         id="birth_city">
                         <?php if (!$birth_city->getValid()) : ?>
@@ -143,11 +163,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="col">
                         <label for="id_regione" class="form-label">Regione</label>
                              <!-- select, voglio ottenere l'elenco regioni -->
-                        <select id="id_regione" class="form-select id_regione <?php echo !$id_regione->getValid() ? 'is-invalid':'' ?>"
+                        <select id="id_regione" class="form-select id_regione <?=!$id_regione->getValid() ? 'is-invalid':'' ?>"
                         name="id_regione">
                                 <option value=""></option>
                                 <?php foreach(Regione::all() as $regione) : ?> 
-                                    <option <?php $id_regione->getValue() == $regione->id_regione ? 'selected' : '' ?> value="<?= $regione->id_regione ?>"> <?= $regione->nome ?></option>
+                                    <option <?=$id_regione->getValue() == $regione->id_regione ? 'selected' : '' ?> value="<?= $regione->id_regione ?>"> <?= $regione->nome ?></option>
                                 <?php endforeach;  ?>
                         </select>
                         <?php if (!$id_regione->getValid()) : ?>
@@ -161,11 +181,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="col">
                         <label for="id_provincia" class="form-label">Provincia</label>
                         <!-- select, voglio ottenere l'elenco province -->
-                        <select id="id_provincia" class="form-select id_provincia <?php echo !$id_provincia->getValid() ? 'is-invalid':'' ?>"
+                        <select id="id_provincia" class="form-select id_provincia <?=!$id_provincia->getValid() ? 'is-invalid':'' ?>"
                         name="id_provincia">
                         <option value=""></option>
                                 <?php foreach(Provincia::all() as $provincia) : ?> 
-                                    <option <?php $id_provincia->getValue() == $provincia->id_provincia ? 'selected' : '' ?> value="<?= $provincia->id_provincia ?>"><?= $provincia->nome ?></option>
+                                    <option <?=$id_provincia->getValue() == $provincia->id_provincia ? 'selected' : '' ?> value="<?= $provincia->id_provincia ?>"><?= $provincia->nome ?></option>
                                 <?php endforeach;  ?>
                         </select>
                         <?php if (!$id_provincia->getValid()) : ?>
@@ -192,26 +212,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <?php echo $gender->getMessage() ?>  
                             </div>
                         <?php endif; ?>
-                    </div>
-
-                    <!-- NOME UTENTE/EMAIL -->
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Nome Utente / EMAIL</label>
-                        <input autocomplete = "no" type="text"  value="<?php echo $username->getValue() ?>" class="form-control 
-                            <?php echo (!$username->getValid() && !$username->getValid()) ? 'is-invalid':'' ?>" name="username" id="username">
-                        <?php
-                        //if (!$username_email->getValid()) : ?>
-                            <div class="invalid-feedback">
-                            <?php //echo $username_email->getMessage() ?>
-                            </div>
-                        <?php // endif ?>
-
-                        <?php
-                        //if (!$username->getValid()) : ?>
-                            <div class="invalid-feedback">
-                            <?php //echo $username->getMessage() ?>
-                            </div>
-                        <?php //endif ?>
                     </div>
 
                     <button class="btn btn-primary btn-sm" type="submit">Save changes</button>

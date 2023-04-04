@@ -24,18 +24,19 @@ class UserCRUD{
         $stm -> bindValue(':username', $user -> username, \PDO::PARAM_STR);
         $stm -> bindValue(':password', md5($user -> password), \PDO::PARAM_STR);
         $stm -> execute();
+        // per conoscere id dell' oggetto inserito
+        return $conn -> lastInsertId();
+
     }
 
-    public function update($user_id, $user)
+    public function update($user, $user_id)
     {
-        $query = "UPDATE 'user' u
-        SET 'first_name' = :first_name, 
-            'last_name' =  :last_name,
-            'birthday' =  :birthday,
-            'birth_city' =  :birth_city,
-            'id_regione' =  :id_regione,
-            'id_provincia' =  :id_provincia
-        WHERE user_id = :user_id;";
+
+        $query = "UPDATE `user` SET  `first_name`= :first_name, `last_name`= 
+        :last_name, `birthday` = :birthday, `birth_city`= :birth_city, `id_regione`= 
+        :id_regione, `id_provincia`=:id_provincia, 
+        -- `username`=:username, `password`=:password,
+        `gender`=:gender WHERE user_id= :user_id;";
 
         $conn = new \PDO(DB_DSN,DB_USER,DB_PASSWORD);
         $stm = $conn -> prepare($query);
@@ -46,7 +47,7 @@ class UserCRUD{
         $stm -> bindValue(':id_regione', $user -> id_regione, \PDO::PARAM_INT);
         $stm -> bindValue(':id_provincia', $user -> id_provincia, \PDO::PARAM_INT);
         $stm -> bindValue(':gender', $user -> gender, \PDO::PARAM_STR);
-        $stm->bindValue(':user_id', $user->user_id, \PDO::PARAM_INT);
+        $stm->bindValue(':user_id', $user_id, \PDO::PARAM_INT);
         $stm -> execute();
         return $stm->rowCount();
     }

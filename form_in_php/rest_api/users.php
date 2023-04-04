@@ -49,7 +49,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     ]
                 ];
             }
-            //risposta va covertita in formato json
+            //risposta va convertita in formato json
             echo json_encode($response);     
         }  
         break;
@@ -62,10 +62,71 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         $user = User::array_to_user($request);
 
-        $crud -> create($user);
-        
+        $last_insert_id = $crud -> create($user);
+
+        /*
+        $response = [
+            // array associativo
+            'data' => [
+                'type' => "users",
+                'id' => "last_insert_id",
+                'attributes' => $user   
+            ]
+        ];
+        */
+
+        // cast, lo converto in un array
+        $user = (array)$user;
+        // unset()annulla gli indici di un array, non restituisco queste parti
+        unset($user['password']);
+        $user['user_id'] = $last_insert_id;
+        $response = [
+            'data' => $user,
+            'status' => 202
+        ];
+        echo json_encode($response);
         break;
-    
+
+    #----------PUT
+    case 'PUT':
+        $user_id = filter_input(INPUT_GET, 'user_id');
+
+        $input = file_get_contents('php://input');
+        $request = json_decode($input, true);
+
+        $user = User::array_to_user($request);
+
+        $last_insert_id = $crud->update($user, $user_id);
+
+        $user = (array)$user;
+        unset($user['username']);
+        unset($user['password']);
+        $user['user_id'] = $last_insert_id;
+        
+            if ($last_insert_id == 1) {
+                $response = [
+                    'data' => $user,
+                    'status' => 202
+                ];
+            }
+            if ($last_insert_id == 0) {
+                http_response_code(404);
+                // array associativo
+                $response = [
+                    // proprietà errors
+                    // 'chiave' => "valore"
+                    'errors' => [
+                        [
+                            'status' => 404,
+                            'title' => "utente_id non trovato",
+                            'details' => $user_id
+                        ]
+                    ]
+                ];
+            }
+            //risposta va convertita in formato json
+            echo json_encode($response);
+        break;
 }
 
 
