@@ -55,16 +55,16 @@ class TaskCRUD{
         if(count($result)===0){
             return false;
         }else{
-        $query = "SELECT * FROM user";
-        $stm = $conn -> prepare($query);
-        $stm -> execute();
-        $result = $stm -> fetchAll(PDO::FETCH_CLASS, Task::class);//ho una classe che rappresenta l' utente
-        
-        if(count($result) === 0){
-            return false;
+            $query = "SELECT * FROM user";
+            $stm = $conn -> prepare($query);
+            $stm -> execute();
+            $result = $stm -> fetchAll(PDO::FETCH_CLASS, Task::class);//ho una classe che rappresenta l' utente
+            
+            if(count($result) === 0){
+                return false;
+            }
+            return $result;
         }
-        return $result;
-    }
     }
     
     public function delete($task_id)
