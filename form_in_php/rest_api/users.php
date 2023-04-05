@@ -62,29 +62,34 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         $user = User::array_to_user($request);
 
-        $last_insert_id = $crud -> create($user);
+        try {
+            $last_insert_id = $crud -> create($user);
+            // cast, lo converto in un array
+            $user = (array)$user;
+            // unset()annulla gli indici di un array, non restituisco queste parti
+            unset($user['password']);
+            $user['user_id'] = $last_insert_id;
 
-        /*
-        $response = [
-            // array associativo
-            'data' => [
-                'type' => "users",
-                'id' => "last_insert_id",
-                'attributes' => $user   
-            ]
-        ];
-        */
-
-        // cast, lo converto in un array
-        $user = (array)$user;
-        // unset()annulla gli indici di un array, non restituisco queste parti
-        unset($user['password']);
-        $user['user_id'] = $last_insert_id;
-        $response = [
-            'data' => $user,
-            'status' => 202
-        ];
-        echo json_encode($response);
+            $response = [
+                'data' => $user,
+                'status' => 202
+            ];
+        } catch (\Throwable $th) {
+            http_response_code(422);
+            $response = [
+                // proprietà errors
+                // 'chiave' => "valore"
+                    'errors' => [
+                        [
+                            'status' => 422,
+                            'title' => "Formato non corretto",
+                            'details' => $th -> getMessage(),
+                            'code' => $th -> getCode()
+                        ]
+                    ]
+                ];
+            }
+            echo json_encode($response, JSON_PRETTY_PRINT);
         break;
 
     #----------PUT
