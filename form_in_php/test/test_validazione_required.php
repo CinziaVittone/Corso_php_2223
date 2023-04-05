@@ -2,6 +2,9 @@
 //dal più annidato
 
 //per importare un' interfaccia che ho in un altro file
+
+use validator\ValidateRequired;
+
 require "./form_in_php/class/validator/Validable.php";
 
 //per importare una classe che ho in un altro file

@@ -1,5 +1,8 @@
 <?php
 //includere la configurazione perchè serve alla classe
+
+use Registry\it\Regione;
+
 require "./config.php";
 //devo includere la classe
 require "./form_in_php/class/registry/it/Regione.php";
