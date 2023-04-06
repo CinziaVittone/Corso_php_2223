@@ -12,6 +12,7 @@ class UserApiCreateTest extends TestCase{
         //(new PDO(DB_DSN,DB_USER,DB_PASSWORD))->query("TRUNCATE TABLE user;");
         //$this -> assertEquals()
         //json to php array
+        //body della request
         $payload = [
             "first_name" => "Jack",
             "last_name" => "Black",
@@ -24,25 +25,27 @@ class UserApiCreateTest extends TestCase{
             //la seconda volta da errore
             "username" => "jackblack@gmail.com",
             "password" => "Password",
+            
         ];
-
+        
         $response = $this -> post("http://localhost/corso_php_2223/form_in_php/rest_api/users.php", $payload);
         
         //$this -> assertNull($response);
         
-        //affermo che la rispsotà è un jsonn
+        //affermo che la risposta è un json
         $this -> assertJson($response);
-
+        
         //afferma che 1 è uguale a 1
         //$this -> assertEquals(1,1); 
-
+        
         fwrite(STDERR, print_r($response, TRUE));
         
-
+        
     }
     
-    public function post(string $url, array $body){
-        
+    public function post(string $url, array $body)
+    {
+        //curl = client http in linea di comando, command url, usare indirizzo web tramite linea di comando
         $curl = curl_init();
         
         curl_setopt_array($curl, [
@@ -57,7 +60,7 @@ class UserApiCreateTest extends TestCase{
             CURLOPT_CUSTOMREQUEST => "POST",
             //CURLOPT_POSTFIELDS => "{\n\"first_name\" : \"Ellie\",\n\"last_name\" : \"Brown\",\n\"birth_city\" : \"Trieste\",\n\"birthday\" : \"1997-11-03\",\n\"gender\" : \"F\",\n\"id_regione\" : 6,\n\"id_provincia\" : 100,\n\"username\" : \"elliebrown@gmail.com\",\n\"password\" : \"Password\"\n}\n",
             //devo renderlo valido per qualsiasi utente
-            CURLOPT_POSTFIELDS => json_encode($body),
+            CURLOPT_POSTFIELDS => json_encode($body),//stringa formato json
             CURLOPT_HTTPHEADER => [
                 "Accept: */*",
                 "Content-Type: application/json",
