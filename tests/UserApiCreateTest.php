@@ -24,7 +24,7 @@ class UserApiCreateTest extends TestCase{
             "id_provincia" => 100,
             //chiave unica, la prima volta che lo lancio lo inserisce nel Db
             //la seconda volta da errore
-            "username" => "jackblackkk@gmail.com",
+            "username" => "jackblackkokko@gmail.com",
             "password" => "Password",
             
         ];
