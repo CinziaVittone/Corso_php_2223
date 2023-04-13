@@ -3,7 +3,7 @@
 use crud\TaskCRUD;
 use models\Task;
 
-require "../../config.php";
+require "../config1.php";
 require "../autoload.php";
 
 $crud = new TaskCRUD();

@@ -12,7 +12,7 @@ use validator\ValidateMail;
 use validator\ValidateRequired;
 use validator\ValidatorRunner;
 
-require "../config.php";
+require "./config1.php";
 require "./autoload.php";
 /* li commento ora che usiamo l' autoloading 
 require "./class/validator/Validable.php";

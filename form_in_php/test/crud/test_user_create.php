@@ -5,7 +5,7 @@ use models\User;
 
 //ogni volta che lancio il test svuoto la tabella e questo sarà sempre il primo utente
 //(new PDO(DB_DSN, DB_USER, DB_PASSWORD))->query("TRUNCATE TABLE user;"); 
-include "config.php";
+include "../../config1.php";
 include "form_in_php/test/test_autoload.php";
 
 $crud = new UserCRUD();
@@ -25,7 +25,7 @@ $crud -> create($user);
 $crud -> create($user);//per verificare che dia errore se lo duplico
 
 //READ
-$result = $crud -> read();
+$result = $crud -> read_all();
 
 if(count($resul) == 1){
     echo "Test utente inserito OK";

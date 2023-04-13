@@ -2,7 +2,7 @@
 
 use crud\UserCRUD;
 
-require "../config.php";
+require "./config1.php";
 require "./autoload.php";
 
 print_r($_GET);

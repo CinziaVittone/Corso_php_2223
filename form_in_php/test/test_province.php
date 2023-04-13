@@ -2,7 +2,7 @@
 
 use Registry\it\Provincia;
 
-require "./config.php";
+require "./form_in_php/config1.php";
 
 require "./form_in_php/class/registry/it/Provincia.php";
 

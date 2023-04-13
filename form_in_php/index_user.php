@@ -2,10 +2,10 @@
 
 use crud\UserCRUD;
 //si trovano nella root 
-require "../config.php";
+require "./config1.php";
 require "./autoload.php";
 
-$users = (new UserCRUD())->read();
+$users = (new UserCRUD())->read_all();
 //print_r($users);
 
 ?>

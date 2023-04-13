@@ -12,14 +12,14 @@ use validator\ValidateMail;
 use validator\ValidateRequired;
 use validator\ValidatorRunner;
 
-require "../config.php";
+require "./config1.php";
 require "./autoload.php";
 
 
 $user_id = filter_input(INPUT_GET, "user_id", FILTER_VALIDATE_INT);
 if($user_id){ 
 $crud = new UserCRUD;
-$user = $crud -> read($user_id);
+$user = $crud -> read_by_user_id($user_id);
 }else{
 echo "problemi";
 }

@@ -4,7 +4,7 @@
 use crud\UserCRUD;
 use models\User;
 
-include "config.php";
+include "../../config1.php";
 include "form_in_php/test/test_autoload.php";
 
 (new PDO(DB_DSN,DB_USER,DB_PASSWORD))->query("TRUNCATE TABLE user;");
@@ -23,7 +23,7 @@ $user->password = md5('Password');
 
 $crud->create($user);
 
-print_r($crud->read(1));
+print_r($crud->read_by_user_id(1));
 
 //$user2 = new User();
 //$user2 = $crud->read(1);
@@ -55,7 +55,7 @@ if($result>0) {
 }
 */
 
-$result = $crud->read(); // array | vuoto 
+$result = $crud->read_all(); // array | vuoto 
 if(is_array($result) && count($result) === 1 ){
     echo "\nRicerca di tutti gli utenti (1)\n";
 };

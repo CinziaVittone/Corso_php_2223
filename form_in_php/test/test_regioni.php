@@ -3,7 +3,7 @@
 
 use Registry\it\Regione;
 
-require "./config.php";
+require "./form_in_php/config1.php";
 //devo includere la classe
 require "./form_in_php/class/registry/it/Regione.php";
 

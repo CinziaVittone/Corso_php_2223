@@ -5,7 +5,7 @@ use models\User;
 
 //ogni volta che lancio il test svuoto la tabella e questo sarà sempre il primo utente
 //(new PDO(DB_DSN, DB_USER, DB_PASSWORD))->query("TRUNCATE TABLE user;"); 
-include "config.php";
+include "./form_in_php/config1.php";
 include "form_in_php/test/test_autoload.php";
 
 $crud = new UserCRUD();
@@ -23,7 +23,7 @@ $user -> password = md5('Password');
 
 //READ
 //0.DATABASE VUOTO(leggo prima di creare)
-$result = $crud->read(); //7 array | vuoto 
+$result = $crud->read_all(); //7 array | vuoto 
 if($result === false ){
     echo "\nDatabase iniziale vuoto\n";
 };
@@ -33,7 +33,7 @@ $crud -> create($user);
 
 //READ
 //1.UTENTE ESISTENTE
-$result = $crud -> read(1);//user
+$result = $crud -> read_by_user_id(1);//user
 //get_calss(&variabile) restituisce una stringa che è il nome della classe della variabile
 if(class_exists(User::class) && get_class($result) == User::class){
     echo "\nTest read utente ESISTENTE superato\n";
@@ -41,14 +41,14 @@ if(class_exists(User::class) && get_class($result) == User::class){
 //print_r($result);
 
 //2.UTENTE NON ESISTENTE
-$result = $crud -> read(3);//false
+$result = $crud -> read_by_user_id(3);//false
 if($result == false){
     echo "\nTest read utente NON ESISTENTE superato\n";
 }
 //print_r($result);
 
 //3.TUTTI GLI UTENTI
-$result = $crud -> read();//array | vuoto
+$result = $crud -> read_all();//array | vuoto
 if(is_array($result) && count($result) === 1){
     echo "\nTest read di TUTTI GLI UTENTI superato\n";
 }
@@ -56,7 +56,7 @@ if(is_array($result) && count($result) === 1){
 
 //DELETE poi lo sposto in un file a parte
 $crud -> delete(1);
-$result = $crud -> read(1);
+$result = $crud -> read_by_user_id(1);
 if($result == false){
     echo "\nTest delete utente con user_id 1 superato\n";
 }
