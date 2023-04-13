@@ -28,7 +28,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                         ]
                     ]    
                     ];
-                echo json_encode($response);
+                echo json_encode($response, JSON_PRETTY_PRINT);
             }else{
                 http_response_code(200);
 
@@ -36,7 +36,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     'data' => $users,
                     'status' => 200
                 ];
-                echo json_encode($response);
+                echo json_encode($response, JSON_PRETTY_PRINT);
             }
         //all
         }else{
@@ -46,7 +46,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 'data' => $users,
                 'status'=>200
             ]; 
-            echo json_encode($response);
+            echo json_encode($response, JSON_PRETTY_PRINT);
         }
         break;
 

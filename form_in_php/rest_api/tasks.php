@@ -33,7 +33,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                             ]
                         ]    
                     ];  
-                    echo json_encode($response);
+                    echo json_encode($response, JSON_PRETTY_PRINT);
             }else{
                 http_response_code(200);
 
@@ -41,7 +41,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     'data' => $tasks,
                     'status' => 200
                 ];
-                echo json_encode($response);
+                echo json_encode($response, JSON_PRETTY_PRINT);
             }
         //user_id
         }elseif(!is_null($user_id)){
@@ -56,7 +56,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                         ]
                     ]    
                     ];
-                echo json_encode($response);
+                echo json_encode($response, JSON_PRETTY_PRINT);
             }else{
                 http_response_code(200);
 
@@ -64,7 +64,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     'data' => $tasks,
                     'status' => 200
                 ];
-                echo json_encode($response);
+                echo json_encode($response, JSON_PRETTY_PRINT);
             }
         //all
         }else{
@@ -74,7 +74,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 'data' => $tasks,
                 'status'=>200
             ]; 
-            echo json_encode($response);
+            echo json_encode($response, JSON_PRETTY_PRINT);
         }
         break;
 
@@ -193,7 +193,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 ];
             }
             //risposta va convertita in formato json
-            echo json_encode($response);
+            echo json_encode($response, JSON_PRETTY_PRINT);
         break;
 }
 
