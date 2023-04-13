@@ -7,6 +7,7 @@ use PDO;
 //CRUD = CREATE, READ, UPDATE, DELETE
 class UserCRUD{
 
+    //create -> POST✅
     public function create(User $user)
     {
         $query = "INSERT INTO user (first_name, last_name, birthday, birth_city, id_regione, id_provincia, gender, username, password)
@@ -29,6 +30,7 @@ class UserCRUD{
 
     }
 
+    //update -> PUT✅
     public function update($user, $user_id)
     {
 
@@ -49,42 +51,41 @@ class UserCRUD{
         $stm -> bindValue(':gender', $user -> gender, \PDO::PARAM_STR);
         $stm->bindValue(':user_id', $user_id, \PDO::PARAM_INT);
         $stm -> execute();
+
         return $stm->rowCount();
     }
 
-    public function read(int $user_id = null):User|array|bool
+    //read_by_user_id -> GET✅
+    public function read_by_user_id(int $user_id = null):User|array|bool
     {
         $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
-        if(!is_null($user_id)){
-            $query = "SELECT * FROM user WHERE user_id = :user_id";
-            $stm = $conn -> prepare($query);
-            $stm -> bindValue(':user_id', $user_id, PDO::PARAM_INT);//mi aspetto un intero
-
-            $stm -> execute();//va sempre prima del $result
-            $result = $stm -> fetchAll(PDO::FETCH_CLASS, User::class);
-
-            if(count($result)==1){
-                return $result[0];
-            }
-            if(count($result)>1){
-                throw new \Exception("Chiave primaria duplicata", 1);
-            }
-            if(count($result)===0){
-                return false;
-            }
-        }else{
-            $query = "SELECT * FROM user";
-            $stm = $conn -> prepare($query);
-            $stm -> execute();
-            $result = $stm -> fetchAll(PDO::FETCH_CLASS, User::class);//ho una classe che rappresenta l' utente
+        $query = "SELECT * FROM user WHERE user_id = :user_id";
+        $stm = $conn -> prepare($query);
+        $stm -> bindValue(':user_id', $user_id, PDO::PARAM_INT);
             
-            if(count($result) === 0){
-                return false;
-            }
-            return $result;
-        }
+        $stm -> execute();//va sempre prima del $result
+        $result = $stm -> fetchAll(PDO::FETCH_CLASS, User::class);
+        
+        return $result;
     }
 
+    //read_all -> GET✅
+    public function read_all():User|array|bool
+    {
+        $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
+        $query = "SELECT * FROM user";
+        $stm = $conn -> prepare($query);
+            
+        $stm -> execute();//va sempre prima del $result
+        $result = $stm -> fetchAll(PDO::FETCH_CLASS, User::class);
+                
+        if(count($result) === 0){
+            return false;
+        }
+        return $result;
+    }
+
+    //delete -> DELETE✅
     public function delete($user_id)
     {
         $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
@@ -95,7 +96,6 @@ class UserCRUD{
         //non c'è fetchAll() perchè non abbiamo un risultato
         return $stm -> rowCount();
     }
-
 }
 
 ?>

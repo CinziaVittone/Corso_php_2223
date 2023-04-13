@@ -10,51 +10,86 @@ include "../autoload.php";
 $crud = new UserCRUD;
 
 switch ($_SERVER['REQUEST_METHOD']) {
-    #----------GET
+    
+    #----------GET read_all, read_by_user_id✅
     case 'GET':
-        $user_id = filter_input(INPUT_GET, 'user_id');
+        $user_id = filter_input(INPUT_GET,'user_id');
+        
+        //user_id
         if(!is_null($user_id)){
-           echo json_encode($crud -> read($user_id));
-        }else{//user_id è null
-            $users = $crud -> read();
-            echo json_encode($users);
-        }
-        break;
-        # Model
-        // ottenere elenco utenti, con read del CRUD
-        //$users = $crud -> read();
-        //gli users sono un array, vogliamo trasformali in json, è una stringa
-        //echo json_encode($users);
-
-    #----------DELETE
-    case 'DELETE':
-        $user_id = filter_input(INPUT_GET, 'user_id');
-        if(!is_null($user_id)){
-            $rows = $crud -> delete($user_id);
-            if($rows ==1){
-                http_response_code(204);
-            }
-            if($rows == 0){
-                http_response_code(404);
-                // array associativo
+            $users = $crud->read_by_user_id($user_id);
+            if($users == false){
                 $response = [
-                    // proprietà errors
-                    // 'chiave' => "valore"
                     'errors' => [
                         [
-                        'status' => 404,
-                        'title' => "utente_id non trovato",
-                        'details' => $user_id 
-                        ]    
-                    ]
+                            'status' => 404,
+                            'title' => "Risorsa non trovata, user_id non esistente",
+                            'details' => $user_id
+                        ]
+                    ]    
+                    ];
+                echo json_encode($response);
+            }else{
+                http_response_code(200);
+
+                $response = [
+                    'data' => $users,
+                    'status' => 200
                 ];
+                echo json_encode($response);
             }
-            //risposta va convertita in formato json
-            echo json_encode($response);     
-        }  
+        //all
+        }else{
+            $users = $crud->read_all();
+
+            $response = [
+                'data' => $users,
+                'status'=>200
+            ]; 
+            echo json_encode($response);
+        }
         break;
 
-    #----------POST
+        #----------DELETE delete✅
+    case 'DELETE':
+        $user_id = filter_input(INPUT_GET, 'user_id');
+
+        $input = file_get_contents('php://input');
+        
+        $last_insert_id = $crud->delete($user_id);
+
+        $user['user_id'] = $last_insert_id;
+
+        if ($last_insert_id == 1) {
+
+            $rows = $crud -> delete($user_id);
+
+            http_response_code(200);
+
+            $response = [
+                'data' => $user_id,
+                'status' => 200
+            ];
+
+        }
+        if ($last_insert_id == 0) {
+
+            http_response_code(404);
+
+            $response = [
+                    'errors' => [
+                        [
+                            'status' => 404,
+                            'title' => "Risorsa non trovata, questo utente non esiste",
+                            'details' => $user_id
+                        ]
+                    ]
+                ];
+        }   
+        echo json_encode($response, JSON_PRETTY_PRINT);
+        break;
+   
+ #----------POST create✅
     case 'POST':
         $input = file_get_contents('php://input');
         // ottengo un array associativo
@@ -72,7 +107,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
             $response = [
                 'data' => $user,
-                'status' => 202
+                'status' => 201
             ];
         } catch (\Throwable $th) {
             http_response_code(422);
@@ -82,21 +117,22 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     'errors' => [
                         [
                             'status' => 422,
-                            'title' => "Formato non corretto",
+                            'title' => "Formato non corretto, esiste già uno user con questo username",
                             'details' => $th -> getMessage(),
                             'code' => $th -> getCode()
                         ]
                     ]
                 ];
-            }
-            echo json_encode($response, JSON_PRETTY_PRINT);
+        }
+        echo json_encode($response, JSON_PRETTY_PRINT);
         break;
-
-    #----------PUT
+        
+    #----------PUT update✅
     case 'PUT':
         $user_id = filter_input(INPUT_GET, 'user_id');
 
         $input = file_get_contents('php://input');
+
         $request = json_decode($input, true);
 
         $user = User::array_to_user($request);
@@ -104,14 +140,17 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $last_insert_id = $crud->update($user, $user_id);
 
         $user = (array)$user;
+
         unset($user['username']);
         unset($user['password']);
+
         $user['user_id'] = $last_insert_id;
         
             if ($last_insert_id == 1) {
+                http_response_code(200);
                 $response = [
                     'data' => $user,
-                    'status' => 202
+                    'status' => 201
                 ];
             }
             if ($last_insert_id == 0) {
@@ -123,7 +162,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     'errors' => [
                         [
                             'status' => 404,
-                            'title' => "utente_id non trovato",
+                            'title' => "Risorsa non trovata, utente già modificato",
                             'details' => $user_id
                         ]
                     ]
@@ -133,6 +172,3 @@ switch ($_SERVER['REQUEST_METHOD']) {
             echo json_encode($response);
         break;
 }
-
-
-?>
