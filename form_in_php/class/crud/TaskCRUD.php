@@ -41,7 +41,7 @@ class TaskCRUD{
     }
     
     //read_by_task_id -> GET✅
-    public function read_by_task_id(int $task_id = null):Task|array|bool
+    public function read_by_task_id(int $task_id = null)
     {
         $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
         $query = "SELECT * FROM task WHERE task_id = :task_id";
@@ -56,7 +56,7 @@ class TaskCRUD{
     }
     
     //read_by_user_id -> GET✅
-    public function read_by_user_id(int $user_id = null):Task|array|bool
+    public function read_by_user_id(int $user_id = null)
     {
         $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
         $query = "SELECT * FROM task WHERE user_id = :user_id";
@@ -70,7 +70,7 @@ class TaskCRUD{
     }
 
     //read_all -> GET✅
-    public function read_all():Task|array|bool
+    public function read_all()
     {
         $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
         $query = "SELECT * FROM task";
