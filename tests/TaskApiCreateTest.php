@@ -1,35 +1,30 @@
+
 <?php
 
 use PHPUnit\Framework\TestCase;
 
 require_once "./config.php";
 
-class UserApiCreateTest extends TestCase{
+class TaskApiCreateTest extends TestCase{
     //create✅
     /*
-    public function test_create_user_api()
+    public function test_create_task_api()
     {
         //se voglio svuotare il db ogni volta
-        //(new PDO(DB_DSN,DB_USER,DB_PASSWORD))->query("TRUNCATE TABLE user;");
+        //(new PDO(DB_DSN,DB_USER,DB_PASSWORD))->query("TRUNCATE TABLE task;");
         //$this -> assertEquals()
         //json to php array
         //body della request
         $payload = [
-            "first_name" => "Jack",
-            "last_name" => "Black",
-            "birth_city" => "Trieste",
-            "birthday" => "1992-04-02",
-            "gender" => "M",
-            "id_regione" => 6,
-            "id_provincia" => 100,
-            //chiave unica, la prima volta che lo lancio lo inserisce nel Db
-            //la seconda volta da errore
-            "username" => "jackblackkk@gmail.com",
-            "password" => "Password",
-            
+                    "user_id"=> 4,
+                    //chiave unica, la prima volta che lo lancio lo inserisce nel Db
+                    //la seconda volta da errore
+                    "name"=> "Comprare il panettone",
+                    "due_date"=> "2023-04-12",
+                    "done"=> true,
         ];
         
-        $response = $this -> post("http://localhost/corso_php_2223/form_in_php/rest_api/users.php", $payload);
+        $response = $this -> post("http://localhost/corso_php_2223/form_in_php/rest_api/tasks.php", $payload);
         
         //$this -> assertNull($response);
         
@@ -51,7 +46,7 @@ class UserApiCreateTest extends TestCase{
         $curl = curl_init();
         
         curl_setopt_array($curl, [
-            //CURLOPT_URL => "http://localhost/corso_php_2223/form_in_php/rest_api/users.php",
+            //CURLOPT_URL => "http://localhost/corso_php_2223/form_in_php/rest_api/tasks.php",
             //devo renderlo generico
             CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
@@ -60,8 +55,7 @@ class UserApiCreateTest extends TestCase{
             CURLOPT_TIMEOUT => 30,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
-            //CURLOPT_POSTFIELDS => "{\n\"first_name\" : \"Ellie\",\n\"last_name\" : \"Brown\",\n\"birth_city\" : \"Trieste\",\n\"birthday\" : \"1997-11-03\",\n\"gender\" : \"F\",\n\"id_regione\" : 6,\n\"id_provincia\" : 100,\n\"username\" : \"elliebrown@gmail.com\",\n\"password\" : \"Password\"\n}\n",
-            //devo renderlo valido per qualsiasi utente
+            //devo renderlo valido per qualsiasi task
             CURLOPT_POSTFIELDS => json_encode($body),//stringa formato json
             CURLOPT_HTTPHEADER => [
                 "Accept: */*",
