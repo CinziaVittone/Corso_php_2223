@@ -13,7 +13,7 @@ class UserApiDeleteTest extends TestCase{
         //json to php array
         //body della request
         $payload = [
-    ];
+        ];
         
         $response = $this -> delete("http://localhost/corso_php_2223/form_in_php/rest_api/users.php/?user_id=204", $payload);
         
