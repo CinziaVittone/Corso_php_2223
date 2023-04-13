@@ -143,7 +143,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     'errors' => [
                         [
                             'status' => 422,
-                            'title' => "Formato non corretto, esiste già una task con questo nome",
+                            'title' => "Formato non corretto, esiste gia' una task con questo nome",
                             'details' => $th -> getMessage(),
                             'code' => $th -> getCode()
 
@@ -186,7 +186,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     'errors' => [
                         [
                             'status' => 404,
-                            'title' => "Risorsa non trovata, task già modificata",
+                            'title' => "Risorsa non trovata, task gia' modificata",
                             'details' => $task_id
                         ]
                     ]

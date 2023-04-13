@@ -117,7 +117,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     'errors' => [
                         [
                             'status' => 422,
-                            'title' => "Formato non corretto, esiste già uno user con questo username",
+                            'title' => "Formato non corretto, esiste gia' uno user con questo username",
                             'details' => $th -> getMessage(),
                             'code' => $th -> getCode()
                         ]
@@ -162,13 +162,13 @@ switch ($_SERVER['REQUEST_METHOD']) {
                     'errors' => [
                         [
                             'status' => 404,
-                            'title' => "Risorsa non trovata, utente già modificato",
+                            'title' => "Risorsa non trovata, utente gia' modificato",
                             'details' => $user_id
                         ]
                     ]
                 ];
             }
             //risposta va convertita in formato json
-            echo json_encode($response);
+            echo json_encode($response, JSON_PRETTY_PRINT);
         break;
 }
