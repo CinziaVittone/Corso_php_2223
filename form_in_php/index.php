@@ -12,6 +12,8 @@ $users = (new UserCRUD())->read_all();
 
 <?php require "./class/views/head_view.php" ?>
 
+<a href= "create_user_new.php" class="btn btn-success btn-xs">➕Add</a>
+
 <table class="table">
     <!-- riga -->
     <tr>
