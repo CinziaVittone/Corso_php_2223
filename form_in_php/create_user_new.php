@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //redirect: posso stabilire un utilizzo
         //header("location: http://www.google.com");
         //posso inserire un percorso relativo alla pagina con lista utenti registrati
-        header("location:index_user.php");
+        header("location:index.php");
     }else{
         echo"Il form non è valido";
     }        

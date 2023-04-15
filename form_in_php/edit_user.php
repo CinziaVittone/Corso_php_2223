@@ -1,7 +1,7 @@
 <?php
 
-//error_reporting(E_ALL); li vede tutti
-//error_reporting(0); li spegne tutti
+error_reporting(E_ALL); //li vede tutti
+//error_reporting(0); //li spegne tutti
 
 use crud\UserCRUD;
 use models\User;
@@ -20,6 +20,7 @@ $user_id = filter_input(INPUT_GET, "user_id", FILTER_VALIDATE_INT);
 if($user_id){ 
 $crud = new UserCRUD;
 $user = $crud -> read_by_user_id($user_id);
+print_r($user);
 }else{
 echo "problemi";
 }
