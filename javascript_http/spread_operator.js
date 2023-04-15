@@ -24,3 +24,27 @@ const nuovo = "arancione";
 const primari_additivi_rosa_arancione = [...primari_additivi, "rosa", nuovo];
 console.log(primari_additivi_rosa_arancione);
 //[ 'rosso', 'verde', 'blu', 'rosa', 'arancione' ]
+
+const persona = {
+  nome: "Peach",
+  cognome: "Princess",
+};
+
+const persona2 = {
+  ...persona,
+  ...{ voti: [6, 7, 9] }, //spalmo oggetto voti
+};
+
+persona2.indirizzo = "Via Roma 42";
+
+console.log(persona);
+//{ nome: 'Peach', cognome: 'Princess' }
+console.log(persona2);
+/*
+{
+  nome: 'Peach',
+  cognome: 'Princess',
+  voti: [ 6, 7, 9 ],
+  indirizzo: 'Via Roma 42'
+}
+*/
