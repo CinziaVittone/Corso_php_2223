@@ -8,7 +8,7 @@ import { UsersList, UsersTable } from "./RenderView.js";
 
 // restituisce -> PROMISE
 getUser().then((json) => {
-  UsersList(json, "lista_utenti"); //lisat_utenti come in index.html
+  UsersList(json, "lista_utenti"); //lista_utenti come in index.html
 });
 
 getUser().then((json) => {
