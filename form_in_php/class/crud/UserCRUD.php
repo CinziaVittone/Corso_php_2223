@@ -55,39 +55,37 @@ class UserCRUD{
         return $stm->rowCount();
     }
 
-        // $query = "UPDATE `user` SET  `first_name`= :first_name, `last_name`= 
-        // :last_name, `birthday` = :birthday, `birth_city`= :birth_city, `regione_id`= 
-        // :regione_id, `provincia_id`=:provincia_id, `gender`=:gender WHERE user_id= :user_id;";
-
-
-    //read_by_user_id -> GET✅
-    public function read_by_user_id(int $user_id = null):User|array|bool
+    //read -> GET✅
+    public function read(int $user_id = null):User|array|bool
     {
-        $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
-        $query = "SELECT * FROM user WHERE user_id = :user_id";
-        $stm = $conn -> prepare($query);
-        $stm -> bindValue(':user_id', $user_id, PDO::PARAM_INT);
-            
-        $stm -> execute();//va sempre prima del $result
-        $result = $stm -> fetchAll(PDO::FETCH_CLASS, User::class);
-        
-        return $result;
-    }
-
-    //read_all -> GET✅
-    public function read_all()
-    {
-        $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
-        $query = "SELECT * FROM user";
-        $stm = $conn -> prepare($query);
-            
-        $stm -> execute();//va sempre prima del $result
-        $result = $stm -> fetchAll(PDO::FETCH_CLASS, User::class);
-                
-        if(count($result) === 0){
-            return false;
+        $conn = new PDO(DB_DSN, DB_USER, DB_PASSWORD);
+        if (!is_null($user_id)) {
+            $query = "SELECT * FROM user where user_id = :user_id;";
+            $stm = $conn->prepare($query);
+            $stm->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            $stm->execute();
+            $result = $stm->fetchAll(PDO::FETCH_CLASS, User::class);
+            if (count($result) == 1) {
+                return $result[0];
+            }
+            if (count($result) > 1) {
+                throw new \Exception("Chiave primaria duplicata", 1);
+            }
+            if (count($result) === 0) {
+                return false;
+            }
+        } else {
+            $query = "SELECT * FROM user;";
+            $stm = $conn->prepare($query);
+            $stm->execute();
+            $result = $stm->fetchAll(PDO::FETCH_CLASS, User::class);
+            if (count($result) === 0) {
+                return false;
+            }
+            return $result;
         }
-        return $result;
+        //echo "ciao sono ".User::class."\n";
+
     }
 
     //delete -> DELETE✅
