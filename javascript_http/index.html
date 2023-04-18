@@ -10,16 +10,33 @@
   <body>
     <h1>⚡️AJAX - Asynchronous JavaScript And XML⚡️</h1>
 
+    <h2>VERSIONE 1: then( )</h2>
     <h3><strong>1️⃣ Lista utenti da browser</strong></h3>
-    <ul id="lista_utenti">
+    <ul id="lista_utenti4">
+      <!-- arriva da main_then.js -->
       <!-- lista che arriva da js con i dati che arrivano da UserService -->
     </ul>
 
     <h3><strong>2️⃣ Lista utenti da locale</strong></h3>
-    <div id="lista_utenti2">
+    <div id="lista_utenti3">
+      <!-- arriva da main_then.js -->
       <!-- lista che arriva da locale -->
     </div>
 
-    <script type="module" src="./main.js"></script>
+    <h2>VERSIONE 2: async_await</h2>
+    <h3><strong>3️⃣ Lista utenti da browser</strong></h3>
+    <ul id="lista_utenti">
+      <!-- arriva da main_async.js -->
+      <!-- lista che arriva da js con i dati che arrivano da UserService -->
+    </ul>
+
+    <h3><strong>4️⃣ Tabella utenti da browser</strong></h3>
+    <div id="lista_utenti2">
+      <!-- arriva da main_async.js -->
+      <!-- tabella che arriva da js -->
+    </div>
+
+    <script type="module" src="./main_then.js"></script>
+    <script type="module" src="./main_async.js"></script>
   </body>
 </html>

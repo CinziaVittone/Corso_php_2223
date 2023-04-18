@@ -1,6 +1,5 @@
 async function getUser() {
-  const base_url =
-    "http://localhost/corso_php_2223/form_in_php/rest_api/users.php";
+  const base_url = "http://localhost/corso_php_2223/form_in_php/rest_api";
 
   //THEN
   /*
@@ -18,6 +17,7 @@ const promessa_json = promessa_responseHTTP.then((json) => {
   /*
 //await = aspetta che fetch restituisca una promessa*/
   const response = await fetch(base_url + "/users.php");
+  console.log(response);
 
   const json = await response.json();
   return json;

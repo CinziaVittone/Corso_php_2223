@@ -21,23 +21,27 @@ function UsersList(array_users, element_selector) {
 //(cosa prende, dove lo mette)
 const UsersTable = (array_users, element_selector) => {
   //Template Literals/Strings = backtick (``), più facile posso andare a capo
-  const html =
-    `<table border="1" width="100%">
+  const tr_users = array_users
+    .map((user) => {
+      return `<tr>
+                <td>
+                🌷${user.first_name}
+                </td>
+            </tr>`;
+    })
+    .join("");
+
+  console.log(tr_users);
+
+  const html = `<table border="1" width="100%">
             <tr>
                 <th>
                     🌷 NOME 🌷
                 </th>
-            </tr>` +
-    array_users
-      .map((user) => {
-        return `<tr>
-                    <td>
-                    🌷${user.first_name}
-                    </td>
-                </tr>`;
-      })
-      .join("") +
-    `</table>`;
+            </tr>
+            ${tr_users}
+            </table>`;
+
   document.getElementById(element_selector).innerHTML = html;
   //${user.first_name} traduce la variabile
 };

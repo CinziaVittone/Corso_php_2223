@@ -1,6 +1,11 @@
 //è la mia applicazione principale
 //prendo la cassetta degli attrezzi, chiamo tutti i pezzi che servono
 //import è analogo a un require di php
+//è la mia applicazione principale
+//prendo la cassetta degli attrezzi, chiamo tutti i pezzi che servono
+//import è analogo a un require di php
+
+//VERSIONE 1
 import { getUser } from "./UserService.js";
 import { UsersList, UsersTable } from "./RenderView.js";
 
@@ -8,7 +13,7 @@ import { UsersList, UsersTable } from "./RenderView.js";
 
 // restituisce -> PROMISE
 getUser().then((json) => {
-  UsersList(json, "lista_utenti"); //lista_utenti come in index.html
+  UsersList(json, "lista_utenti4"); //lista_utenti4 come in index.html
 });
 
 getUser().then((json) => {
@@ -46,4 +51,4 @@ const user_locale = [
   },
 ];
 
-UsersTable(user_locale, "lista_utenti2"); //lisat_utenti2 come in index.html
+UsersTable(user_locale, "lista_utenti3"); //lista_utenti3 come in index.html
