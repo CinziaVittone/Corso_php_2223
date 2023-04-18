@@ -56,7 +56,7 @@ class UserCRUD{
     }
 
     //read_by_user_id -> GET✅
-    public function read_by_user_id(int $user_id = null)
+    public function read_by_user_id(int $user_id = null):User|array|bool
     {
         $conn = new \PDO(DB_DSN, DB_USER, DB_PASSWORD);
         $query = "SELECT * FROM user WHERE user_id = :user_id";

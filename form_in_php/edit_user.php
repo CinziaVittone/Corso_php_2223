@@ -20,7 +20,7 @@ $user_id = filter_input(INPUT_GET, "user_id", FILTER_VALIDATE_INT);
 if($user_id){ 
 $crud = new UserCRUD;
 $user = $crud -> read_by_user_id($user_id);
-print_r($user);
+//print_r($user);
 }else{
 echo "problemi";
 }
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $crud = new UserCRUD();
         $crud -> update($user_id, $user);
   
-        header("location:index_user.php");
+        header("location:index.php");
     }
 }
 */
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $crud->update($user, $_POST['user_id']);
         var_dump($_POST);
         //redirect
-        header("location: index_user.php");
+        header("location: index.php");
         }else{
             echo "Il form non è valido";
         }
