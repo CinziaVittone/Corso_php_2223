@@ -4,10 +4,10 @@ use PHPUnit\Framework\TestCase;
 
 require_once "./config.php";
 
-class UserApiReadAllTest extends TestCase{
-    //read_all✅
+class UserApiReadTest extends TestCase{
+    //read✅
     /*
-    public function test_read_all_user_api()
+    public function test_read_update_api()
     {
         //$this -> assertEquals()
         //json to php array

@@ -17,7 +17,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         
         //user_id
         if(!is_null($user_id)){
-            $users = $crud->read_by_user_id($user_id);
+            $users = $crud->read($user_id);
             if($users == false){
                 $response = [
                     'errors' => [
@@ -40,7 +40,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
             }
         //all
         }else{
-            $users = $crud->read_all();
+            $users = $crud->read();
 
             $response = [
                 'data' => $users,
