@@ -5,7 +5,7 @@ use crud\UserCRUD;
 require "./config1.php";
 require "./autoload.php";
 
-$users = (new UserCRUD())->read_all();
+$users = (new UserCRUD())->read();
 //print_r($users);
 
 ?>
