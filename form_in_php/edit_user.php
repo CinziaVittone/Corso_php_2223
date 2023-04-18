@@ -34,10 +34,10 @@ echo "problemi";
 //array associativi
 //registra le validazioni che dobbiamo eseguire
 $validatorRunner = new ValidatorRunner([
-    'first_name' => new ValidateRequired($user -> first_name,'Il Nome è obbligatorio😬'),
-    'last_name'  => new ValidateRequired($user -> last_name,'Il Cognome è obbligatorio😬'),
+    'first_name' => new ValidateRequired($user -> first_name,'Il nome è obbligatorio😬'),
+    'last_name'  => new ValidateRequired($user -> last_name,'Il cognome è obbligatorio😬'),
     'birthday'  => new ValidateRequired($user -> birthday,'La data di nascità non è valida😬'),
-    'gender'  => new ValidateRequired($user -> gender,'Il Genere è obbligatorio😬'),
+    'gender'  => new ValidateRequired($user -> gender,'Il genere è obbligatorio😬'),
     'birth_city'  => new ValidateRequired($user -> birth_city,'La città  è obbligatoria😬'),
     'id_regione'  => new ValidateRequired($user -> id_regione,'La regione è obbligatoria😬'),
     'id_provincia'  => new ValidateRequired($user -> id_provincia,'La provincia è obbligatoria😬')

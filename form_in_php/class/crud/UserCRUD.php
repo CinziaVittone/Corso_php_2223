@@ -33,6 +33,7 @@ class UserCRUD{
     //update -> PUT✅
     public function update($user, $user_id)
     {
+        $conn = new \PDO(DB_DSN,DB_USER,DB_PASSWORD);
 
         $query = "UPDATE `user` SET  `first_name`= :first_name, `last_name`= 
         :last_name, `birthday` = :birthday, `birth_city`= :birth_city, `id_regione`= 
@@ -40,7 +41,6 @@ class UserCRUD{
         -- `username`=:username, `password`=:password,
         `gender`=:gender WHERE user_id= :user_id;";
 
-        $conn = new \PDO(DB_DSN,DB_USER,DB_PASSWORD);
         $stm = $conn -> prepare($query);
         $stm -> bindValue(':first_name', $user -> first_name, \PDO::PARAM_STR);
         $stm -> bindValue(':last_name', $user -> last_name, \PDO::PARAM_STR);
@@ -54,6 +54,11 @@ class UserCRUD{
 
         return $stm->rowCount();
     }
+
+        // $query = "UPDATE `user` SET  `first_name`= :first_name, `last_name`= 
+        // :last_name, `birthday` = :birthday, `birth_city`= :birth_city, `regione_id`= 
+        // :regione_id, `provincia_id`=:provincia_id, `gender`=:gender WHERE user_id= :user_id;";
+
 
     //read_by_user_id -> GET✅
     public function read_by_user_id(int $user_id = null):User|array|bool
