@@ -19,7 +19,7 @@ require "./autoload.php";
 $user_id = filter_input(INPUT_GET, "user_id", FILTER_VALIDATE_INT);
 if($user_id){ 
 $crud = new UserCRUD;
-$user = $crud -> read_by_user_id($user_id);
+$user = $crud -> read($user_id);
 //print_r($user);
 }else{
 echo "problemi";

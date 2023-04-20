@@ -2,7 +2,9 @@
 namespace models;
 
 class User{
-    
+    //mi serve sennò da errore:
+    //Deprecated: Creation of dynamic property models\User::$user_id is deprecated
+    public $user_id;
     public $first_name;
     public $last_name;
     public $birthday;
