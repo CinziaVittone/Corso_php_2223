@@ -5,8 +5,8 @@
 
 use crud\UserCRUD;
 use models\User;
-use Registry\it\Provincia;
-use Registry\it\Regione;
+use registry\it\Provincia;
+use registry\it\Regione;
 use validator\ValidateDate;
 use validator\ValidateMail;
 use validator\ValidateRequired;
@@ -49,8 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //print_r($_POST);
     
     $validatorRunner->isValid();
-    var_dump($validatorRunner->isValid());
-    var_dump($validatorRunner->getValid());
+    //var_dump($validatorRunner->isValid());
+    //var_dump($validatorRunner->getValid());
   
     if($validatorRunner->getValid()){
 
@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //redirect: posso stabilire un utilizzo
         //header("location: http://www.google.com");
         //posso inserire un percorso relativo alla pagina con lista utenti registrati
-        header("location:index.php");
+        echo "<script> location.href='index.php'; </script>";;
     }else{
         echo"Il form non è valido";
     }        

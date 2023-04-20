@@ -1,12 +1,12 @@
 <?php
 
-error_reporting(E_ALL); //li vede tutti
-//error_reporting(0); //li spegne tutti
+//error_reporting(E_ALL); //li vede tutti
+error_reporting(0); //li spegne tutti
 
 use crud\UserCRUD;
 use models\User;
-use Registry\it\Provincia;
-use Registry\it\Regione;
+use registry\it\Provincia;
+use registry\it\Regione;
 use validator\ValidateDate;
 use validator\ValidateMail;
 use validator\ValidateRequired;
@@ -22,7 +22,7 @@ $crud = new UserCRUD;
 $user = $crud -> read($user_id);
 //print_r($user);
 }else{
-echo "problemi";
+//echo "problemi";
 }
 
 //print_r($_POST);//vedo i dati che passo nel post
@@ -33,6 +33,7 @@ echo "problemi";
 //le variabili idventano indici degli array coon dentro il validatore che serve
 //array associativi
 //registra le validazioni che dobbiamo eseguire
+
 $validatorRunner = new ValidatorRunner([
     'first_name' => new ValidateRequired($user -> first_name,'Il nome è obbligatorio😬'),
     'last_name'  => new ValidateRequired($user -> last_name,'Il cognome è obbligatorio😬'),
@@ -72,25 +73,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
     $validatorRunner->isValid();
     if($validatorRunner->getValid()){
         $user = User::array_to_user($_POST);
         $crud = new UserCRUD;
         $crud->update($user, $_POST['user_id']);
-        var_dump($_POST);
+        //var_dump($_POST);
         //redirect
-        header("location: index.php");
-        }else{
+        echo "<script> location.href='index.php'; </script>";
+        exit;
+    }else{
             echo "Il form non è valido";
-        }
     }
+}
 
 ?>
 
     <!-- spostiamo header nel file che contiene la VIEW, per comodità creo un frammento che posso spostare -->
     <?php require "./class/views/head_view.php" ?> 
-
         <section class="row">
             <div class="col-sm-8">
                 <form class="mt-1 mt-md-5" action="edit_user.php" method="post">
@@ -98,14 +98,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <!-- NOME -->
                     <div class="mb-3">
-                        <label for="first_name" class="form-label">Nome</label>
-                        <input type="text" 
+                    <label for="first_name" class="form-label">Nome</label>
+                    <input type="text" 
                             value="<?= $first_name->getValue() ?>"
                             class="form-control <?php echo !$first_name->getValid() ? 'is-invalid':''  ?>" 
                             name="first_name" 
                             id="first_name"
                         >
-                        <?php if (!$first_name->getValid()) : ?>
+                    <?php if (!$first_name->getValid()) : ?>
                             <div class="invalid-feedback">
                                 <?php echo $first_name->getMessage() ?>
                             </div>
@@ -143,8 +143,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php endif ?>
                     </div>
 
-                <!-- 3 COLONNE -->
-                <div class="mb-3">
+                    <!-- 3 COLONNE -->
+                    <div class="mb-3">
                     <div class="row">
 
                     <!-- CITTA -->
@@ -179,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                         
                         <!-- PROVINCIA -->
-                        <div class="col">
+                    <div class="col">
                         <label for="id_provincia" class="form-label">Provincia</label>
                         <!-- select, voglio ottenere l'elenco province -->
                         <select id="id_provincia" class="form-select id_provincia <?=!$id_provincia->getValid() ? 'is-invalid':'' ?>"
@@ -196,9 +196,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php endif ?> 
                     </div>
                     </div> 
-                </div>
 
-                <!-- GENDER -->
+                    <!-- GENDER -->
                     <div class="mb-3">
                         <!-- <h1><?php //echo $gender->getValue() == 'M' ? 'AA':'BB' ?></h1> -->
                         <label for="gender" class="form-label">Genere</label>
@@ -218,16 +217,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <button class="btn btn-primary btn-sm" type="submit">Save changes</button>
                 </form>
             </div>
-
-
-
-      
         </section>
-
         <?php require "./class/views/footer_view.php" ?>
-
-    </main>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 
