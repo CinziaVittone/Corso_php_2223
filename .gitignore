@@ -1,2 +1,3 @@
 # nome delle cartelle che voglio ignorare
 vendor
+node_modules
